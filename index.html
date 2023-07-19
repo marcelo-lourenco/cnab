@@ -26,7 +26,8 @@
 
     header {
       display: flex;
-      background: #c20332; /* #949494 */ 
+      background: #c20332;
+      /* #949494 */
       color: #ffffff;
       margin: 10px;
       width: 97%;
@@ -47,7 +48,8 @@
       overflow: auto;
       margin: 10px;
       width: 97%;
-      background-color: #5c0521; /* #e4e4e4 */
+      background-color: #5c0521;
+      /* #e4e4e4 */
     }
 
     #fileInput {
@@ -108,7 +110,15 @@
      * @returns {string} O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
      */
     function identificarLayoutArquivo(primeiraLinha) {
-      return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
+      if (primeiraLinha.length === 240) {
+        return "CNAB240";
+      } else if (primeiraLinha.length >= 400) {
+        console.log(primeiraLinha)
+        return "CNAB400";
+      } else {
+        return `${primeiraLinha.length} Ops! O arquivo selecionado não atende o layout.`;
+      }
+      // return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
     }
 
     /**
@@ -434,6 +444,7 @@
         "#8A2BE2", // Azul Violeta
         "#32CD32", // Verde Limão
         "#FF4500", // Laranja Vermelho
+        "#69dcff", // Turquesa Brilhante
         "#FF6347", // Tomate
         "#1E90FF", // Azul Dodger
         "#FFA500", // Laranja
@@ -548,7 +559,8 @@
             document.getElementById('conteudoColorido').classList.remove('conteudo-inicial');
 
             // Inserir o nome do arquivo selecionado dentro do elemento <div> com o id "nomeArquivo"
-            document.getElementById('nomeArquivo').textContent = `${layoutArquivo} - ${file.name}`;
+            // document.getElementById('nomeArquivo').textContent = `${layoutArquivo} - ${file.name}`;
+            document.getElementById('nomeArquivo').textContent = `${layoutArquivo}`;
 
           };
 
