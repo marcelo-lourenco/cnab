@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CNAB - Colorido</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Anek Latin', sans-serif;
+      font-size: 14px;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
+
+    header {
+      display: flex;
+      background: #c20332;
+      color: #ffffff;
+      margin: 10px;
+      width: 97%;
+    }
+
+    header>div {
+      flex: 1;
+      width: 33.33%;
+      box-sizing: border-box;
+      padding: 0px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    main {
+      display: flex;
+      flex: 1;
+      overflow: auto;
+      margin: 10px;
+      width: 97%;
+      background-color: #5c0521;
+    }
+
+    #fileInput {
+      padding: 14px;
+    }
+
+    .conteudo-inicial {
+      background-color: #ffffff !important;
+    }
+
+    #conteudoColorido {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: Consolas, 'Courier New', monospace;
+      letter-spacing: 1.5px;
+      /* line-height: 1.6; */
+      width: 98%;
+      margin: 10px;
+      padding: 10px;
+      overflow: auto;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h3>SELECIONE O ARQUIVO CNAB</h3>
+      </div>
+      <div>
+        <input type="file" id="fileInput" onchange="processarArquivo(event)" accept=".txt,.rem,.ret">
+      </div>
+      <div>
+        <h3 id="nomeArquivo">txt, rem ou ret</h3>
+      </div>
+    </header>
+    <main>
+      <div id="conteudoColorido" class="conteudo-inicial" readonly onclick="exibirTooltip(event, '')"></div>
+    </main>
+    <footer>
+      by: <a href="https://github.com/Marcelo-Lourenco">Marcelo Lourenço</a>
+    </footer>
+  </div>
+  <script>
+
+    /**
+     * Função para identificar o layout do arquivo (CNAB240 ou CNAB400) com base na primeira linha.
+     * @param {string} primeiraLinha - A primeira linha do arquivo a ser processado.
+     * @returns {string} O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
+     */
+    function identificarLayoutArquivo(primeiraLinha) {
+      return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
+    }
+
+    /**
+     * Função para exibir um tooltip com a descrição do conteúdo ao clicar em um valor.
+     * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
+     * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
+     */
+    function exibirTooltip(event, descricao) {
+      const tooltip = document.createElement("div");
+      tooltip.innerText = descricao;
+      tooltip.style.position = "absolute";
+      tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+      tooltip.style.color = "white";
+      tooltip.style.padding = "5px";
+      tooltip.style.borderRadius = "5px";
+      tooltip.style.left = `${event.clientX + 10}px`;
+      tooltip.style.top = `${event.clientY + 10}px`;
+      tooltip.style.zIndex = "9999";
+      document.body.appendChild(tooltip);
+
+      const target = event.target;
+      target.style.backgroundColor = "yellow";
+      target.style.color = "black";
+
+      // Remove o tooltip após 3 segundos
+      setTimeout(() => {
+        tooltip.remove();
+      }, 3000);
+    }
+
+    // Definição das colunas para cada tipo de arquivo CNAB240
+    const colunasCNAB240 = {
+      headerArquivo: [
+        [1, 3, "001 a 003- Código do Banco na Compensação"],
+        [4, 7, "004 a 007- Lote de Serviço"],
+        [8, 8, "008 a 008- Tipo de Registro"],
+        [9, 17, "009 a 017- Uso Exclusivo FEBRABAN / CNAB"],
+        [18, 18, "018 a 018- Tipo de Inscrição da Empresa"],
+        [19, 32, "019 a 032- Número de Inscrição da Empresa"],
+        [33, 52, "033 a 052- Código do Convênio no Banco"],
+        [53, 57, "053 a 057- Agência Mantenedora da Conta"],
+        [58, 58, "058 a 058- Dígito Verificador da Agência"],
+        [59, 70, "059 a 070- Número da Conta Corrente"],
+        [71, 71, "071 a 071- Dígito Verificador da Conta"],
+        [72, 72, "072 a 072- Dígito Verificador da Ag/Conta"],
+        [73, 102, "073 a 102- Nome da Empresa"],
+        [103, 132, "103 a 132- Nome do Banco"],
+        [133, 142, "133 a 142- Uso Exclusivo FEBRABAN / CNAB"],
+        [143, 143, "143 a 143- Código Remessa / Retorno"],
+        [144, 151, "144 a 151- Data de Geração do Arquivo"],
+        [152, 157, "152 a 157- Hora de Geração do Arquivo"],
+        [158, 163, "158 a 163- Número Seqüencial do Arquivo"],
+        [164, 166, "164 a 166- No da Versão do Layout do Arquivo"],
+        [167, 171, "167 a 171- Densidade de Gravação do Arquivo"],
+        [172, 191, "172 a 191- Para Uso Reservado do Banco"],
+        [192, 211, "192 a 211- Para Uso Reservado da Empresa"],
+        [212, 240, "212 a 240- Uso Exclusivo FEBRABAN / CNAB "]
+      ],
+      headerLote: [
+        [1, 3, "001 a 003 - Código do Banco na Compensação"],
+        [4, 7, "004 a 007 - Lote de Serviço"],
+        [8, 8, "008 a 008 - Tipo de Registro"],
+        [9, 9, "009 a 009 - Tipo da Operação"],
+        [10, 11, "010 a 011 - Tipo do Serviço"],
+        [12, 13, "012 a 013 - Forma de Lançamento"],
+        [14, 16, "014 a 016 - Nº da Versão do Layout do Lote"],
+        [17, 17, "017 a 017 - Uso Exclusivo da FEBRABAN/CNAB"],
+        [18, 18, "018 a 018 - Tipo de Inscrição da Empresa"],
+        [19, 32, "019 a 032 - Número de Inscrição da Empresa"],
+        [33, 52, "033 a 052 - Código do Convênio no Banco"],
+        [53, 57, "053 a 057 - Agência Mantenedora da Conta"],
+        [58, 58, "058 a 058 - Dígito Verificador da Agência"],
+        [59, 70, "059 a 070 - Número da Conta Corrente"],
+        [71, 71, "071 a 071 - Dígito Verificador da Conta"],
+        [72, 72, "072 a 072 - Dígito Verificador da Ag/Conta"],
+        [73, 102, "073 a 102 - Nome da Empresa"],
+        [103, 142, "103 a 142 - Mensagem"],
+        [143, 172, "143 a 172 - Nome da Rua, Av, Pça, Etc"],
+        [173, 177, "173 a 177 - Número do Local"],
+        [178, 192, "178 a 192 - Casa, Apto, Sala, Etc"],
+        [193, 212, "193 a 212 - Nome da Cidade"],
+        [213, 217, "213 a 217 - CEP"],
+        [218, 220, "218 a 220 - Complemento do CEP"],
+        [221, 222, "221 a 222 - Sigla do Estado"],
+        [223, 224, "223 a 224 - Indicativo de Forma de Pagamento do Serviço"],
+        [225, 230, "225 a 230 - Uso Exclusivo FEBRABAN/CNAB"],
+        [231, 240, "231 a 240 - Códigos das Ocorrências p/ Retorno "]
+      ],
+      segmentoA: [
+        [1, 3, "001 a 003 - Código do Banco na Compensação"],
+        [4, 7, "004 a 007 - Lote de Serviço"],
+        [8, 8, "008 a 008 - Tipo de Registro"],
+        [9, 13, "009 a 013 - Nº Seqüencial do Registro no Lote"],
+        [14, 14, "014 a 014 - Código de Segmento do Reg. Detalhe"],
+        [15, 15, "015 a 015 - Tipo de Movimento"],
+        [16, 17, "016 a 017 - Código da Instrução p/ Movimento"],
+        [18, 20, "018 a 020 - Código da Câmara Centralizadora"],
+        [21, 23, "021 a 023 - Código do Banco do Favorecido"],
+        [24, 28, "024 a 028 - Ag. Mantenedora da Cta do Favor."],
+        [29, 29, "029 a 029 - Dígito Verificador da Agência"],
+        [30, 41, "030 a 041 - Número da Conta Corrente"],
+        [42, 42, "042 a 042 - Dígito Verificador da Conta"],
+        [43, 43, "043 a 043 - Dígito Verificador da AG/Conta"],
+        [44, 73, "044 a 073 - Nome do Favorecido"],
+        [74, 93, "074 a 093 - Nº do Docum. Atribuído p/ Empresa"],
+        [94, 101, "094 a 101 Data do Pagamento"],
+        [102, 104, "102 a 104 - Tipo da Moeda"],
+        [105, 119, "105 a 119 - Quantidade da Moeda"],
+        [120, 134, "120 a 134 - Valor do Pagamento"],
+        [135, 154, "135 a 154 - Nº do Docum. Atribuído pelo Banco"],
+        [155, 162, "155 a 162 - Data Real da Efetivação Pagto"],
+        [163, 177, "163 a 177 - Valor Real da Efetivação do Pagto"],
+        [178, 217, "178 a 217 - Outras Informações"],
+        [218, 219, "218 a 219 - Compl. Tipo Serviço"],
+        [220, 224, "220 a 224 - Codigo finalidade da TED"],
+        [225, 226, "225 a 226 - Compl. Finalidade de Pagamento"],
+        [227, 229, "227 a 229 - Uso Exclusivo FEBRABAN/CNAB"],
+        [230, 230, "230 a 230 - Aviso ao Favorecido"],
+        [231, 240, "231 a 240 - Códigos das Ocorrências p/ Retorno "]
+      ],
+      segmentoB: [
+        [1, 3, "001, 003 - Código do Banco na Compensação"],
+        [4, 7, "004, 007 - Lote de Serviço"],
+        [8, 8, "008, 008 - Tipo do Registro"],
+        [9, 13, "009, 013 - Nº Seqüencial do Registro no Lote"],
+        [14, 14, "014, 014 - Código de Segmento do Reg. Detalhe"],
+        [15, 17, "015, 017 - Uso Exclusivo FEBRABAN/CNAB"],
+        [18, 18, "018, 018 - Tipo de Inscrição do Favorecido"],
+        [19, 32, "019, 032 - Nº de Inscrição do Favorecido"],
+        [33, 62, "033, 062 - Nome da Rua, Av, Pça, Etc"],
+        [63, 67, "063, 067 - Nº do Local"],
+        [68, 82, "068, 082 - Casa, Apto, Etc"],
+        [83, 97, "083, 097 - Bairro"],
+        [98, 117, "098, 117 - Nome da Cidade"],
+        [118, 122, "118, 122 - CEP"],
+        [123, 125, "123, 125 - Complemento do CEP"],
+        [126, 127, "126, 127 - Sigla do Estado"],
+        [128, 135, "128, 135 - Data do Vencimento (Nominal)"],
+        [136, 150, "136, 150 - Valor do Documento (Nominal)"],
+        [151, 165, "151, 165 - Valor do Abatimento"],
+        [166, 180, "166, 180 - Valor do Desconto"],
+        [181, 195, "181, 195 - Valor da Mora"],
+        [196, 210, "196, 210 - Valor da Multa"],
+        [211, 225, "211, 225 - Código/Documento do Favorecido"],
+        [226, 226, "226, 226 - Aviso ao Favorecido"],
+        [227, 232, "227, 232 - Uso Exclusivo para o SIAPE"],
+        [233, 240, "233, 240 - Código ISPB "]
+      ],
+      segmentoJ: [
+        [1, 3, "001 a 003 - Código no Banco da Compensação"],
+        [4, 7, "004 a 007 - Lote de Serviço"],
+        [8, 8, "008 a 008 - Tipo de Registro"],
+        [9, 13, "009 a 013 - Nº Seqüencial do Registro no Lote"],
+        [14, 14, "014 a 014 - Código de Segmento no Reg. Detalhe"],
+        [15, 15, "015 a 015 - Tipo de Movimento"],
+        [16, 17, "016 a 017 - Código da Instrução p/ Movimento"],
+        [18, 61, "018 a 061 - Código de Barras"],
+        [62, 91, "062 a 091 - Nome do Cedente"],
+        [92, 99, "092 a 099 - Data do Vencimento (Nominal)"],
+        [100, 114, "100 a 114 - Valor do Título (Nominal)"],
+        [115, 129, "115 a 129 - Valor do Desconto + Abatimento"],
+        [130, 144, "130 a 144 - Valor da Mora + Multa"],
+        [145, 152, "145 a 152 - Data do Pagamento"],
+        [153, 167, "153 a 167 - Valor do Pagamento"],
+        [168, 182, "168 a 182 - Quantidade da Moeda"],
+        [183, 202, "183 a 202 - Nº do Docto Atribuído pela Empresa"],
+        [203, 222, "203 a 222 - Nº do Docto Atribuído pelo Banco"],
+        [223, 224, "223 a 224 - Código de Moeda"],
+        [225, 230, "225 a 230 - Uso Exclusivo FEBRABAN/CNAB"],
+        [231, 240, "231 a 240 - Códigos das Ocorrências p/ Retorno"],
+      ],
+      segmentoJ52: [
+        [1, 3, "001 a 003 - Código do Banco na Compensação"],
+        [4, 7, "004 a 007 - Lote de Serviço"],
+        [8, 8, "008 a 008 - Tipo de Registro"],
+        [9, 13, "009 a 013 - Nº Sequencial do Registro no Lote"],
+        [14, 14, "014 a 014 - Cód. Segmento do Registro Detalhe"],
+        [15, 15, "015 a 015 - Uso Exclusivo FEBRABAN/CNAB"],
+        [16, 17, "016 a 017 - Código de Movimento Remessa"],
+        [18, 19, "018 a 019 - Identificação Registro Opcional"],
+        [20, 20, "020 a 020 - Tipo de Inscrição"],
+        [21, 35, "021 a 035 - Número de Inscrição"],
+        [36, 75, "036 a 075 - Nome"],
+        [76, 76, "076 a 076 - Tipo de Inscrição"],
+        [77, 91, "077 a 091 - Número de Inscrição"],
+        [92, 131, "092 a 131 - Nome"],
+        [132, 132, "132 a 132 - Tipo de Inscrição"],
+        [133, 147, "133 a 147 - Número de Inscrição"],
+        [148, 187, "148 a 187 - Nome"],
+        [188, 240, "188 a 240 - Uso Exclusivo FEBRABAN/CNAB"],
+      ],
+      segmentoZ: [
+        [1, 3, "001 a 003 - Código no Banco da Compensação"],
+        [4, 7, "004 a 007 - Lote de Serviço"],
+        [8, 8, "008 a 008 - Registro Detalhe de Lote"],
+        [9, 13, "009 a 013 - Nº Seqüencial do Registro no Lote"],
+        [14, 14, "014 a 014 - Código de Segmento no Reg. Detalhe"],
+        [15, 78, "015 a 078 - Autenticação para atender Legislação"],
+        [79, 103, "079 a 103 - Autenticação Bancária / Protocolo"],
+        [104, 230, "104 a 230 - Uso CNAB/FEBRABAN"],
+        [231, 240, "231 a 240 - Códigos das Ocorrências p/ Retorno"],
+      ],
+      trailerLote: [
+        [1, 3, "001, 003 - Código do Banco na Compensação"],
+        [4, 7, "004, 007 - Lote de Serviço"],
+        [8, 8, "008, 008 - Tipo de Registro"],
+        [9, 17, "009, 017 - Uso Exclusivo FEBRABAN/CNAB"],
+        [18, 23, "018, 023 - Quantidade de Registros do Lote"],
+        [24, 41, "024, 041 - Somatória de Valores"],
+        [42, 59, "042, 059 - Somatória de Quantidade de Moedas"],
+        [60, 65, "060, 065 - Número Aviso de Débito"],
+        [66, 230, "066, 230 - Uso Exclusivo FEBRABAN/CNAB"],
+        [231, 240, "231, 240 - Códigos das Ocorrências p/ Retorno "]
+      ],
+      trailerArquivo: [
+        [1, 3, "001, 003 - Código do Banco na Compensação"],
+        [4, 7, "004, 007 - Lote de Serviço"],
+        [8, 8, "008, 008 - Tipo de Registro"],
+        [9, 17, "009, 017 - Uso Exclusivo FEBRABAN/CNAB"],
+        [18, 23, "018, 023 - Quantidade de Lotes do Arquivo"],
+        [24, 29, "024, 029 - Quantidade de Registros do Arquivo"],
+        [30, 35, "030, 035 - Qtde de Contas p/ Conc. (Lotes)"],
+        [36, 240, "036, 240 - Uso Exclusivo FEBRABAN/CNAB"]
+      ],
+    };
+
+    // Definição das colunas para cada tipo de arquivo CNAB400
+    const colunasCNAB400 = {
+      tipo0: [
+        [1, 1, "001 a 001 - Identificação do Registro"],
+        [2, 2, "002 a 002 - Identificação do Arquivo - Remessa"],
+        [3, 9, "003 a 009 - Literal Remessa"],
+        [10, 11, "010 a 011 - Código de Serviço"],
+        [12, 26, "012 a 026 - Literal Serviço"],
+        [27, 46, "027 a 046 - Código da Empresa"],
+        [47, 76, "047 a 076 - Nome da Empresa"],
+        [77, 79, "077 a 079 - Número do Bradesco na Câmara de Compensação"],
+        [80, 94, "080 a 094 - Nome do Banco por Extenso"],
+        [95, 100, "095 a 100 - Data da Gravação do Arquivo"],
+        [101, 108, "101 a 108 - Branco"],
+        [109, 110, "109 a 110 - Identificação do Sistema"],
+        [111, 117, "111 a 117 - Nº Sequencial de Remessa"],
+        [118, 394, "118 a 394 - Branco"],
+        [395, 400, "395 a 400 - Nº Sequencial do Registro de Um em Um"]
+      ],
+      tipo1: [
+        [1, 1, "001 a 001 - Identificação do Registro"],
+        [2, 6, "002 a 006 - Agência de Débito (opcional)"],
+        [7, 7, "007 a 007 - Dígito da Agência de Débito (opcional)"],
+        [8, 12, "008 a 012 - Razão da Conta-Corrente (opcional)"],
+        [13, 19, "013 a 019 - Conta-Corrente (opcional)"],
+        [20, 20, "020 a 020 - Dígito da Conta-Corrente (opcional)"],
+        [21, 37, "021 a 037 - Identificação da Empresa Beneficiária no Banco"],
+        [38, 62, "038 a 062 - Nº Controle do Participante"],
+        [63, 65, "063 a 065 - Código do Banco a ser debitado na Câmara de Compensação"],
+        [66, 66, "066 a 066 - Campo de Multa"],
+        [67, 70, "067 a 070 - Percentual de Multa"],
+        [71, 81, "071 a 081 - Identificação do Título no Banco"],
+        [82, 82, "082 a 082 - Dígito de Autoconferência do Número Bancário"],
+        [83, 92, "083 a 092 - Desconto Bonificação por dia"],
+        [93, 93, "093 a 093 - Condição para Emissão da Papeleta de Cobrança"],
+        [94, 94, "094 a 094 - Ident. se emite Boleto para Débito Automático"],
+        [95, 104, "095 a 104 - Identificação da Operação do Banco"],
+        [105, 105, "105 a 105 - Indicador Rateio Crédito (opcional)"],
+        [106, 106, "106 a 106 - Endereçamento para Aviso do Débito Automático em Conta-Corrente (opcional)"],
+        [107, 108, "107 a 108 - Quantidade de Pagamentos"],
+        [109, 110, "109 a 110 - Identificação da Ocorrência"],
+        [111, 120, "111 a 120 - Nº do Documento"],
+        [121, 126, "121 a 126 - Data do Vencimento do Título"],
+        [127, 139, "127 a 139 - Valor do Título"],
+        [140, 142, "140 a 142 - Banco Encarregado da Cobrança"],
+        [143, 147, "143 a 147 - Agência Depositária"],
+        [148, 149, "148 a 149 - Espécie de Título"],
+        [150, 150, "150 a 150 - Identificação"],
+        [151, 156, "151 a 156 - Data da Emissão do Título"],
+        [157, 158, "157 a 158 - 19 Instrução"],
+        [159, 160, "159 a 160 - 29 Instrução"],
+        [161, 173, "161 a 173 - Valor a ser Cobrado por Dia de Atraso"],
+        [174, 179, "174 a 179 - Data Limite P/Concessão de Desconto"],
+        [180, 192, "180 a 192 - Valor do Desconto"],
+        [193, 205, "193 a 205 - Valor do IOF"],
+        [206, 218, "206 a 218 - Valor do Abatimento a ser Concedido ou Cancelado"],
+        [219, 220, "219 a 220 - Identificação do Tipo de Inscrição do Pagador"],
+        [221, 234, "221 a 234 - Nº Inscrição do Pagador"],
+        [235, 274, "235 a 274 - Nome do Pagador"],
+        [275, 314, "275 a 314 - Endereço Completo"],
+        [315, 326, "315 a 326 - 19 Mensagem"],
+        [327, 331, "327 a 331 - CEP"],
+        [332, 334, "332 a 334 - Sufixo do CEP"],
+        [335, 394, "335 a 394 - Beneficiário Final ou 29 Mensagem"],
+        [395, 400, "395 a 400 - Nº Sequencial do Registro"],
+      ],
+      tipo9: [
+        [1, 1, "001 a 001 - Identificação Registro"],
+        [2, 394, "002 a 394 - Branco"],
+        [395, 400, "395 a 400 - Número Sequencial de Registro"],
+      ],
+    };
+
+    /**
+     * Função para colorir o texto da linha e aplicar o tooltip com base no layout do arquivo.
+     * @param { string } linha - A linha do arquivo a ser colorida e processada.
+     * @param { string } layoutArquivo - O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
+     * @returns { string } O conteúdo da linha colorida com os tooltips aplicados.
+     */
+    function colorirTexto(linha, layoutArquivo) {
+
+      /**
+       * Retorna a posição de um trecho dentro de uma string.
+       * @param {string} ini - O trecho que se deseja buscar na string.
+       * @param {string} fin - O trecho que indica o fim da busca na string.
+       * @returns {Object} Um objeto contendo as propriedades "inicio" e "fim".
+       */
+      function posicao(ini, fin) {
+        return linha.slice((ini - 1), fin);
+      }
+
+      const cores = [
+        "#FFD700", // Ouro
+        "#00CED1", // Azul Turquesa Média
+        "#DA70D6", // Orquídea Média
+        "#FF1493", // Rosa Choque
+        "#8A2BE2", // Azul Violeta
+        "#32CD32", // Verde Limão
+        "#FF4500", // Laranja Vermelho
+        "#FF6347", // Tomate
+        "#1E90FF", // Azul Dodger
+        "#FFA500", // Laranja
+        "#ADFF2F", // Verde Amarelo
+        "#FF69B4", // Rosa Choque
+        "#FFFF00", // Amarelo
+      ];
+
+      let tipo;
+
+      const colunasTipo = [];
+
+      let resultado = "";
+
+      if (layoutArquivo === "CNAB240") {
+
+        const tipoRegistro = posicao(8, 8);
+        console.log("tipoRegistro", tipoRegistro);
+
+        if (tipoRegistro === "0") {
+          tipo = "headerArquivo";
+        } else if (tipoRegistro === "1") {
+          tipo = "headerLote";
+        } else if (tipoRegistro === "2") {
+          tipo = "iniciaisLote";
+        } else if (tipoRegistro === "3") {
+          if (posicao(14, 14) === "A") {
+            tipo = "segmentoA";
+          } else if (posicao(14, 14) === "B") {
+            tipo = "segmentoB";
+          } else if (posicao(14, 14) === "J" && posicao(18, 19) === "52") {
+            tipo = "segmentoJ52";
+          } else if (posicao(14, 14) === "J") {
+            tipo = "segmentoJ";
+          } else if (posicao(14, 14) === "Z") {
+            tipo = "segmentoZ";
+          }
+        } else if (tipoRegistro === "4") {
+          tipo = "finaisLote";
+        } else if (tipoRegistro === "5") {
+          tipo = "trailerLote";
+        } else if (tipoRegistro === "9") {
+          tipo = "trailerArquivo";
+        } else {
+          tipo = "";
+        }
+
+        const colunasCNABTipo = colunasCNAB240[tipo] || [];
+        for (const coluna of colunasCNABTipo) {
+          const [ini, fin, descricao] = coluna;
+          const campo = posicao(ini, fin);
+          resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
+        }
+
+      } else if (layoutArquivo === "CNAB400") {
+
+        const primeiraPosicao = posicao(1, 1);
+
+        if (primeiraPosicao === "0") {
+          tipo = "tipo0";
+        } else if (primeiraPosicao === "1") {
+          tipo = "tipo1";
+        } else if (primeiraPosicao === "9") {
+          tipo = "tipo9";
+        } else {
+          tipo = "outros";
+        }
+
+        const colunasCNABTipo = colunasCNAB400[tipo] || [];
+
+        for (const coluna of colunasCNABTipo) {
+          const [ini, fin, descricao] = coluna;
+          const campo = posicao(ini, fin);
+          resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
+        }
+      }
+
+      return resultado;
+    }
+
+
+    /**
+     * Função para processar o arquivo selecionado pelo usuário.
+     * @param {Event} event - O evento de mudança de arquivo acionado pelo usuário.
+     */
+    function processarArquivo(event) {
+      const file = event.target.files[0];
+      const extensaoPermitida = ["txt", "rem", "ret"];
+
+      if (file) {
+        const arquivoExtensao = file.name.split(".").pop().toLowerCase();
+
+        if (extensaoPermitida.includes(arquivoExtensao)) {
+          const reader = new FileReader();
+
+          // Alterações para identificar o layout do arquivo antes de colorir o conteúdo
+          reader.onload = function (e) {
+            const conteudo = e.target.result;
+            const linhas = conteudo.split('\n');
+            let resultadoFinal = '';
+
+            // Identificar o layout do arquivo com base na primeira linha
+            const layoutArquivo = identificarLayoutArquivo(linhas[0]);
+
+            for (const linha of linhas) {
+              resultadoFinal += colorirTexto(linha, layoutArquivo) + '<br>';
+            }
+
+            document.getElementById('conteudoColorido').innerHTML = `<pre>${resultadoFinal}</pre>`;
+
+            // Após carregar o conteúdo, alterar o background-color para #000000
+            document.getElementById('conteudoColorido').classList.remove('conteudo-inicial');
+
+            // Inserir o nome do arquivo selecionado dentro do elemento <div> com o id "nomeArquivo"
+            document.getElementById('nomeArquivo').textContent = `${layoutArquivo} - ${file.name}`;
+
+          };
+
+          reader.readAsText(file);
+        } else {
+          alert("Por favor, selecione um arquivo com extensão .txt, .rem ou .ret.");
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
