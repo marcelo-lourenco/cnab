@@ -1,2 +1,0 @@
-# cnab
-CNAB 240 e CNAB 400
