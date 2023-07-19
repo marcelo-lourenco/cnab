@@ -6,24 +6,24 @@ Página para vizualizar arquivos CNAB240 e CNAB400 com a posições demarcadas p
 
 ### CNAB 240
 
-|Tipo Registro |Implementado|
-|--------------|------------|
-|Header Arquivo|X           |
-|Header Lote   |X           |
-|A             |X           |
-|B             |X           |
-|C             |            |
-|5             |            |
-|J             |X           |
-|J 52          |X           |
-|G             |            |
-|H             |            |
-|Y             |            |
-|O             |            |
-|W             |            |
-|Z             |X           |
-|Trailer Lote  |X           |
-|Trailer Lote  |X           |
+|Tipo Registro  |Implementado|
+|---------------|------------|
+|Header Arquivo |X           |
+|Header Lote    |X           |
+|A              |X           |
+|B              |X           |
+|C              |            |
+|5              |            |
+|J              |X           |
+|J 52           |X           |
+|G              |            |
+|H              |            |
+|Y              |            |
+|O              |            |
+|W              |            |
+|Z              |X           |
+|Trailer Lote   |X           |
+|Trailer Arquivo|X           |
 
 
 ### CNAB 400
