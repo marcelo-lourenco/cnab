@@ -86,10 +86,15 @@ footer {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
+  /* max-width: 600px; */
+  /* Define uma largura máxima para evitar que o modal fique muito grande em telas maiores */
 }
 
 .modal-content.scrollbar {
