@@ -6,7 +6,6 @@ Página para vizualizar arquivos CNAB240 e CNAB400 com a posições demarcadas p
 
 [https://marcelo-lourenco.github.io/cnab/](https://marcelo-lourenco.github.io/cnab/)
 
-
 ## Tipos Implementados
 
 ### CNAB 240
