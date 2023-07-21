@@ -292,8 +292,6 @@
         selectElement.appendChild(option);
       });
     }
-
-
     function exibirModal() {
       const codigoFiltro = document.getElementById("codigoFiltro").value;
       if (codigoFiltro === "") return;
@@ -301,11 +299,9 @@
       const selectedCodigo = descricaoCampos.find((item) => item[0] === codigoFiltro);
 
       if (selectedCodigo) {
-        //const modalTitulo = document.getElementById("modalTitulo"); // Novo elemento para exibir o título do modal
-        //modalTitulo.innerText = `Título do Modal: ${selectedCodigo[0]}`; // Atualiza o título do modal com o valor do codigoFiltro
-
         const descricaoModal = document.getElementById("descricaoModal");
-
+        const descricaoFormatada = selectedCodigo[1].replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
+        //descricaoModal.innerHTML = `<pre>${selectedCodigo[0]}\n\n${descricaoFormatada}</pre>`;
         descricaoModal.innerText = `${selectedCodigo[0]}\n\n${selectedCodigo[1]}`;
 
         const modal = document.getElementById("modal");
@@ -319,7 +315,6 @@
         }
       }
     }
-
 
 
     function fecharModal() {
