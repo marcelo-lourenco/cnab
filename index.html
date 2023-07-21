@@ -46,13 +46,12 @@
   </div>
   <script>
 
+    let layoutArquivo = "";
     /**
      * Função para identificar o layout do arquivo (CNAB240 ou CNAB400) com base na primeira linha.
      * @param {string} primeiraLinha - A primeira linha do arquivo a ser processado.
      * @returns {string} O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
      */
-
-    let layoutArquivo = "";
     function identificarLayoutArquivo(primeiraLinha) {
       if (primeiraLinha.length === 240) {
         layoutArquivo = "CNAB240"
@@ -74,25 +73,23 @@
     function exibirTooltip(event, descricao) {
       const tooltip = document.createElement("div");
       tooltip.innerText = descricao;
-      tooltip.style.position = "absolute";
-      tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-      tooltip.style.color = "white";
-      tooltip.style.padding = "5px";
-      tooltip.style.borderRadius = "5px";
+      tooltip.classList.add("tooltip"); // Adiciona a classe 'tooltip' ao elemento
       tooltip.style.left = `${event.clientX + 10}px`;
       tooltip.style.top = `${event.clientY + 10}px`;
-      tooltip.style.zIndex = "9999";
       document.body.appendChild(tooltip);
 
       const target = event.target;
-      target.style.backgroundColor = "yellow";
-      target.style.color = "black";
+      target.classList.add("tooltip-target"); // Adiciona a classe 'tooltip-target' ao elemento
 
       // Remove o tooltip após 3 segundos
       setTimeout(() => {
         tooltip.remove();
       }, 3000);
+      setTimeout(() => {
+        target.classList.remove("tooltip-target"); // Remove a classe 'tooltip-target' do elemento
+      }, 5000);
     }
+
 
     //Definição das lista com as Descrição dos Campos 
     // const descricaoCampos = [ ]
@@ -301,8 +298,7 @@
       if (selectedCodigo) {
         const descricaoModal = document.getElementById("descricaoModal");
         const descricaoFormatada = selectedCodigo[1].replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
-        //descricaoModal.innerHTML = `<pre>${selectedCodigo[0]}\n\n${descricaoFormatada}</pre>`;
-        descricaoModal.innerText = `${selectedCodigo[0]}\n\n${selectedCodigo[1]}`;
+        descricaoModal.innerHTML = `<pre>${selectedCodigo[0]}\n\n${descricaoFormatada}</pre>`;
 
         const modal = document.getElementById("modal");
         modal.style.display = "block";

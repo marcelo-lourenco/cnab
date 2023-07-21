@@ -72,6 +72,19 @@ footer {
   padding: 10px;
 }
 
+.tooltip {
+  position: absolute;
+  background-color: #000000cc;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 9999;
+}
+
+.tooltip-target {
+  background-color: #ffff00;
+  color: #000000 !important;
+}
 
 .modal {
   display: none;
@@ -99,7 +112,12 @@ footer {
 
 .modal-content.scrollbar {
   max-height: 70vh;
+  overflow-x: auto;
   overflow-y: auto;
+}
+
+pre {
+  white-space: pre-wrap;
 }
 
 .close {
