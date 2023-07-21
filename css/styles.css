@@ -54,16 +54,31 @@ main {
   background-color: #ffffff !important;
 }
 
+.celula-numero-linha {
+  color: #000000;
+  background-color: #818181;
+  text-align: right;
+}
+
+.celula-registro {
+  padding: 0px 10px;
+  white-space: pre;
+}
+
 #conteudoColorido {
   background-color: #000000;
   color: #ffffff;
-  font-family: Consolas, 'Courier New', monospace;
-  letter-spacing: 1.5px;
+  font-family: monospace;
+  /* Consolas,
+    'Courier New',
+    monospace; */
+  letter-spacing: 2px;
   /* line-height: 1.6; */
   width: 98%;
   margin: 10px;
   padding: 10px;
   overflow: auto;
+  /* white-space: nowrap; */
 }
 
 footer {
@@ -116,7 +131,7 @@ footer {
   overflow-y: auto;
 }
 
-pre {
+.descricao-modal {
   white-space: pre-wrap;
 }
 

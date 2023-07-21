@@ -29,8 +29,7 @@
 
     </header>
     <main>
-      <table id="conteudoColorido" class="conteudo-inicial" onclick="exibirTooltip(event, '')">
-      </table>
+      <div id="conteudoColorido" class="conteudo-inicial" readonly onclick="exibirTooltip(event, '')"></div>
     </main>
     <!--
     <footer>
@@ -91,8 +90,14 @@
       }, 5000);
     }
 
-    // const descricaoCampos = [ ];
+
+    //Definição das lista com as Descrição dos Campos 
+    // const descricaoCampos = [ ]
+
+    // Definição das colunas para cada tipo de arquivo CNAB240
     // const colunasCNAB240 = {  };
+
+    // Definição das colunas para cada tipo de arquivo CNAB400
     // const colunasCNAB400 = {   };
 
     /**
@@ -199,7 +204,6 @@
      * Função para processar o arquivo selecionado pelo usuário.
      * @param {Event} event - O evento de mudança de arquivo acionado pelo usuário.
      */
-
     function processarArquivo(event) {
       const file = event.target.files[0];
       const extensaoPermitida = ["txt", "rem", "ret"];
@@ -210,6 +214,7 @@
         if (extensaoPermitida.includes(arquivoExtensao)) {
           const reader = new FileReader();
 
+          // Alterações para identificar o layout do arquivo antes de colorir o conteúdo
           reader.onload = function (e) {
             const conteudo = e.target.result;
             const linhas = conteudo.split('\n');
@@ -221,31 +226,21 @@
             // Antes de preencher, limpar o campo de seleção
             limparCampoDescricao();
 
-            // Chamando a função para preencher o select com os códigos da descrição
+            // Chamando a função para preencher o select ao carregar a página
             preencherCampoDescricao(layoutArquivo);
 
-            const tabelaConteudo = document.getElementById('conteudoColorido');
-            tabelaConteudo.innerHTML = ''; // Limpar o conteúdo anterior da tabela
-
-            for (let i = 0; i < linhas.length; i++) {
-              const linha = linhas[i];
+            for (const linha of linhas) {
               resultadoFinal += colorirTexto(linha, layoutArquivo) + '<br>';
-              const novaLinha = tabelaConteudo.insertRow();
-              const celulaNumero = novaLinha.insertCell(); // Coluna para os números das linhas da tabela
-              const celulaRegistro = novaLinha.insertCell(); // Coluna os dados dos arquivos
-
-              celulaNumero.innerText = i + 1; // Número da linha
-              celulaNumero.classList.add('celula-numero-linha'); // Adiciona a classe "celula-numero-linha"
-
-              celulaRegistro.innerHTML = colorirTexto(linha, layoutArquivo);
-              celulaRegistro.classList.add('celula-registro');
             }
 
+            document.getElementById('conteudoColorido').innerHTML = `<pre>${resultadoFinal}</pre>`;
+
             // Após carregar o conteúdo, alterar o background-color para #000000
-            tabelaConteudo.classList.remove('conteudo-inicial');
+            document.getElementById('conteudoColorido').classList.remove('conteudo-inicial');
 
             // Inserir o layout do arquivo selecionado dentro do elemento <div> com o id "tipoArquivo"
             document.getElementById('tipoArquivo').textContent = `${layoutArquivo}`;
+
           };
 
           reader.readAsText(file);
