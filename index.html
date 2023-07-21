@@ -135,10 +135,8 @@
         "#FFFF00", // Amarelo
       ];
 
-      let tipo;
-
-      const colunasTipo = [];
-
+      let tipo = "";
+      let colunasCNABTipo = [];
       let resultado = "";
 
       if (layoutArquivo === "CNAB240") {
@@ -173,12 +171,7 @@
           tipo = "";
         }
 
-        const colunasCNABTipo = colunasCNAB240[tipo] || [];
-        for (const coluna of colunasCNABTipo) {
-          const [ini, fin, descricao] = coluna;
-          const campo = posicao(ini, fin);
-          resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
-        }
+        colunasCNABTipo = colunasCNAB240[tipo] || [];
 
       } else if (layoutArquivo === "CNAB400") {
 
@@ -194,13 +187,13 @@
           tipo = "outros";
         }
 
-        const colunasCNABTipo = colunasCNAB400[tipo] || [];
+        colunasCNABTipo = colunasCNAB400[tipo] || [];
+      }
 
-        for (const coluna of colunasCNABTipo) {
-          const [ini, fin, descricao] = coluna;
-          const campo = posicao(ini, fin);
-          resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
-        }
+      for (const coluna of colunasCNABTipo) {
+        const [ini, fin, descricao] = coluna;
+        const campo = posicao(ini, fin);
+        resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
       }
 
       return resultado;
@@ -289,6 +282,7 @@
         selectElement.appendChild(option);
       });
     }
+
     function exibirModal() {
       const codigoFiltro = document.getElementById("codigoFiltro").value;
       if (codigoFiltro === "") return;
@@ -319,11 +313,6 @@
       const modalContent = document.getElementById("modalContent");
       modalContent.classList.remove("scrollbar");
     }
-
-
-
-
-
   </script>
 
 </body>
