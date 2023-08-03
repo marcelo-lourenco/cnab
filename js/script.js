@@ -1,6 +1,3 @@
-let layoutArquivo = "";
-let descricaoCampos = [];
-
 const cores = [
   "#FFD700", // Ouro
   "#00CED1", // Azul Turquesa Média
@@ -18,6 +15,10 @@ const cores = [
   "#FFFF00", // Amarelo
 ];
 
+let layoutArquivo = "";
+let descricaoCampos = [];
+
+
 /**
  * Identifica o layout do arquivo (CNAB240 ou CNAB400) com base na primeira linha.
  * @param {string} primeiraLinha - A primeira linha do arquivo a ser processado.
@@ -34,31 +35,6 @@ function identificarLayoutArquivo(primeiraLinha) {
     return `${primeiraLinha.length} Ops! O arquivo selecionado não atende o layout.`;
   }
   // return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
-}
-
-/**
- * Exibe um tooltip com a descrição do conteúdo ao clicar em um valor.
- * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
- * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
- */
-function exibirTooltip(event, descricao) {
-  const tooltip = document.createElement("div");
-  tooltip.innerText = descricao;
-  tooltip.classList.add("tooltip"); // Adiciona a classe 'tooltip' ao elemento
-  tooltip.style.left = `${event.clientX + 10}px`;
-  tooltip.style.top = `${event.clientY + 10}px`;
-  document.body.appendChild(tooltip);
-
-  const target = event.target;
-  target.classList.add("tooltip-target"); // Adiciona a classe 'tooltip-target' ao elemento
-
-  // Remove o tooltip após 3 segundos
-  setTimeout(() => {
-    tooltip.remove();
-  }, 5000);
-  setTimeout(() => {
-    target.classList.remove("tooltip-target"); // Remove a classe 'tooltip-target' do elemento
-  }, 5000);
 }
 
 
@@ -142,8 +118,7 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join(" | ")}')">${campo}</span>`;
-
+    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
   }
 
   return resultado;
@@ -209,6 +184,7 @@ function processarArquivo(event) {
   }
 }
 
+
 /**
 * Limpa as opções adicionais do campo "select id='codigoFiltro'".
 */
@@ -221,7 +197,6 @@ function limparCampoDescricao() {
     selectElement.removeChild(options[i]);
   }
 }
-
 
 
 /**
@@ -252,8 +227,57 @@ function preencherCampoDescricao(layoutArquivo) {
  * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
  * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
  */
-function exibirModal() {
-  const codigoFiltro = document.getElementById("codigoFiltro").value;
+function exibirTooltip(event, descricao) {
+  const tooltip = document.createElement("div");
+  tooltip.classList.add("tooltip"); // Adiciona a classe 'tooltip' ao elemento
+
+  // Ícone de ajuda dentro do tooltip
+  const icon = document.createElement("span");
+  icon.classList.add("tooltip-icon");
+  icon.innerText = "?";
+  tooltip.appendChild(icon);
+
+  // Texto da descrição dentro do tooltip
+  const tooltipText = document.createElement("span");
+  tooltipText.innerText = descricao;
+  tooltip.appendChild(tooltipText);
+
+  document.body.appendChild(tooltip);
+
+  // Posiciona o tooltip próximo ao cursor do mouse
+  tooltip.style.left = `${event.clientX + 10}px`;
+  tooltip.style.top = `${event.clientY + 10}px`;
+
+  // Adiciona a classe 'tooltip-target' ao elemento alvo
+  const target = event.target;
+  target.classList.add("tooltip-target");
+
+  // Remove o tooltip após 3 segundos
+  setTimeout(() => {
+    tooltip.remove();
+  }, 5000);
+
+  // Remove a classe 'tooltip-target' do elemento
+  setTimeout(() => {
+    target.classList.remove("tooltip-target");
+  }, 5000);
+
+  // Exibe o modal com a descrição do campo ao clicar no ícone de ajuda
+  icon.addEventListener("click", () => {
+    let codigo = descricao.split(',')
+    exibirModal(codigo[1]);
+  });
+}
+
+
+/**
+ * Exibe um tooltip com a descrição do conteúdo ao clicar em um valor.
+ * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
+ * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
+ */
+function exibirModal(cod) {
+  console.log(cod)
+  let codigoFiltro = cod ? cod : document.getElementById("codigoFiltro").value;
   if (codigoFiltro === "") return;
 
   const selectedCodigo = descricaoCampos.find((item) => item[0] === codigoFiltro);
@@ -274,6 +298,7 @@ function exibirModal() {
     }
   }
 }
+
 
 /**
  * Fecha o modal que exibe a descrição do conteúdo.
