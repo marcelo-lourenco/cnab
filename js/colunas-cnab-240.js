@@ -1,4 +1,3 @@
-
 // Definição das colunas para cada tipo de arquivo CNAB240
 const colunasCNAB240 = {
   headerArquivo: [
