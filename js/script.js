@@ -55,7 +55,7 @@ function exibirTooltip(event, descricao) {
   // Remove o tooltip após 3 segundos
   setTimeout(() => {
     tooltip.remove();
-  }, 3000);
+  }, 5000);
   setTimeout(() => {
     target.classList.remove("tooltip-target"); // Remove a classe 'tooltip-target' do elemento
   }, 5000);
@@ -138,9 +138,12 @@ function colorirTexto(linha, layoutArquivo) {
   }
 
   for (const coluna of colunasCNABTipo) {
-    const [ini, fin, descricao] = coluna;
+    const [ini, fin, desc] = coluna;
     const campo = posicao(linha, ini, fin);
-    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
+    let descricao = desc.descricao;
+
+    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join(" | ")}')">${campo}</span>`;
+
   }
 
   return resultado;
