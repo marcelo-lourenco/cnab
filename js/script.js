@@ -118,7 +118,7 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao}')">${campo}</span>`;
+    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
   }
 
   return resultado;
@@ -206,11 +206,7 @@ function limparCampoDescricao() {
 function preencherCampoDescricao(layoutArquivo) {
   const selectElement = document.getElementById('codigoFiltro');
 
-  if (layoutArquivo === "CNAB240") {
-    descricaoCampos = descricaoCampos240;
-  } else {
-    descricaoCampos = descricaoCampos400;
-  }
+  descricaoCampos = layoutArquivo === "CNAB240" ? descricaoCampos240 : descricaoCampos400;
 
   descricaoCampos.forEach(item => {
     const option = document.createElement('option');
@@ -264,8 +260,9 @@ function exibirTooltip(event, descricao) {
 
   // Exibe o modal com a descrição do campo ao clicar no ícone de ajuda
   icon.addEventListener("click", () => {
-    let codigo = descricao.split(',')
-    exibirModal(codigo[1]);
+    let codigoDescricao = descricao.split('|')
+    tooltip.remove();
+    exibirModal(codigoDescricao[1]);
   });
 }
 
@@ -275,17 +272,41 @@ function exibirTooltip(event, descricao) {
  * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
  * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
  */
-function exibirModal(cod) {
-  console.log(cod)
-  let codigoFiltro = cod ? cod : document.getElementById("codigoFiltro").value;
+/* function exibirModal(codigoDescricao) {
+  let codigoFiltro = codigoDescricao ? codigoDescricao : document.getElementById("codigoFiltro").value;
   if (codigoFiltro === "") return;
 
-  const selectedCodigo = descricaoCampos.find((item) => item[0] === codigoFiltro);
+  const codigoSelecionado = descricaoCampos.find((item) => item[0] === codigoFiltro);
 
-  if (selectedCodigo) {
+  if (codigoSelecionado) {
     const descricaoModal = document.getElementById("descricaoModal");
-    const descricaoFormatada = selectedCodigo[1].replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
-    descricaoModal.innerHTML = `<pre class="descricao-modal">${selectedCodigo[0]}\n\n${descricaoFormatada}</pre>`;
+    const descricaoFormatada = codigoSelecionado[1].replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
+    descricaoModal.innerHTML = `<pre class="descricao-modal">${codigoSelecionado[0]}\n\n${descricaoFormatada}</pre>`;
+
+    const modal = document.getElementById("modal");
+    modal.style.display = "block";
+
+    const modalContent = document.getElementById("modalContent");
+    const windowHeight = window.innerHeight;
+    const contentHeight = modalContent.offsetHeight;
+    if (contentHeight >= windowHeight) {
+      modalContent.classList.add("scrollbar");
+    }
+  }
+}
+ */
+function exibirModal(codigoDescricao) {
+  let codigoFiltro = codigoDescricao ? codigoDescricao : document.getElementById("codigoFiltro").value;
+  if (codigoFiltro === "") return;
+
+  const codigoSelecionado = descricaoCampos.find((item) => item[0] === codigoFiltro);
+
+  if (codigoSelecionado) {
+    const descricaoModal = document.getElementById("descricaoModal");
+    const linhas = codigoSelecionado[1].split('\n');
+    const primeiraLinha = linhas.shift(); // Seleciona a primeira linha do texto (título da descrição)
+
+    descricaoModal.innerHTML = `<pre class="descricao-modal"><h2>${codigoSelecionado[0]} - ${primeiraLinha}</h2>${linhas.join('<br>')}</pre>`;
 
     const modal = document.getElementById("modal");
     modal.style.display = "block";
@@ -309,3 +330,14 @@ function fecharModal() {
   const modalContent = document.getElementById("modalContent");
   modalContent.classList.remove("scrollbar");
 }
+
+
+/**
+ * Fecha o modal ao clicar fora dele.
+ */
+window.onclick = function (event) {
+  const modal = document.getElementById("modal");
+  if (event.target === modal) {
+    fecharModal();
+  }
+};

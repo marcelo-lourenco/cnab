@@ -24,7 +24,8 @@ header {
   /* #949494 */
   color: #ffffff;
   margin: 10px;
-  width: 97%;
+  width: 98%;
+  border-radius: 4px;
 }
 
 header>div {
@@ -41,9 +42,10 @@ main {
   flex: 1;
   overflow: auto;
   margin: 10px;
-  width: 97%;
+  width: 98%;
   background-color: #5c0521;
   /* #e4e4e4 */
+  border-radius: 4px;
 }
 
 #fileInput {
@@ -68,17 +70,18 @@ main {
 #conteudoColorido {
   background-color: #000000;
   color: #ffffff;
-  font-family: monospace;
+  font-family: consolas;
   /* Consolas,
     'Courier New',
     monospace; */
   letter-spacing: 2px;
   /* line-height: 1.6; */
-  width: 98%;
+  width: 100%;
   margin: 10px;
   padding: 10px;
   overflow: auto;
   /* white-space: nowrap; */
+  border-radius: 4px;
 }
 
 footer {
@@ -141,6 +144,7 @@ footer {
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
+  border-radius: 8px;
   /* max-width: 600px; */
   /* Define uma largura máxima para evitar que o modal fique muito grande em telas maiores */
 }
