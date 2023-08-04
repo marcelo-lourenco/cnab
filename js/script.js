@@ -248,12 +248,12 @@ function exibirTooltip(event, descricao) {
   const target = event.target;
   target.classList.add("tooltip-target");
 
-  // Remove o tooltip após 3 segundos
+  // Remove o tooltip após 5 segundos
   setTimeout(() => {
     tooltip.remove();
   }, 5000);
 
-  // Remove a classe 'tooltip-target' do elemento
+  // Remove a classe 'tooltip-target' do elemento após 5 segundos
   setTimeout(() => {
     target.classList.remove("tooltip-target");
   }, 5000);
@@ -272,29 +272,6 @@ function exibirTooltip(event, descricao) {
  * @param {Event} event - O evento de clique que acionou a exibição do tooltip.
  * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
  */
-/* function exibirModal(codigoDescricao) {
-  let codigoFiltro = codigoDescricao ? codigoDescricao : document.getElementById("codigoFiltro").value;
-  if (codigoFiltro === "") return;
-
-  const codigoSelecionado = descricaoCampos.find((item) => item[0] === codigoFiltro);
-
-  if (codigoSelecionado) {
-    const descricaoModal = document.getElementById("descricaoModal");
-    const descricaoFormatada = codigoSelecionado[1].replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
-    descricaoModal.innerHTML = `<pre class="descricao-modal">${codigoSelecionado[0]}\n\n${descricaoFormatada}</pre>`;
-
-    const modal = document.getElementById("modal");
-    modal.style.display = "block";
-
-    const modalContent = document.getElementById("modalContent");
-    const windowHeight = window.innerHeight;
-    const contentHeight = modalContent.offsetHeight;
-    if (contentHeight >= windowHeight) {
-      modalContent.classList.add("scrollbar");
-    }
-  }
-}
- */
 function exibirModal(codigoDescricao) {
   let codigoFiltro = codigoDescricao ? codigoDescricao : document.getElementById("codigoFiltro").value;
   if (codigoFiltro === "") return;
@@ -304,9 +281,9 @@ function exibirModal(codigoDescricao) {
   if (codigoSelecionado) {
     const descricaoModal = document.getElementById("descricaoModal");
     const linhas = codigoSelecionado[1].split('\n');
-    const primeiraLinha = linhas.shift(); // Seleciona a primeira linha do texto (título da descrição)
+    const tituloDescricao = linhas.shift(); // Retira a primeira linha do texto (título da descrição)
 
-    descricaoModal.innerHTML = `<pre class="descricao-modal"><h2>${codigoSelecionado[0]} - ${primeiraLinha}</h2>${linhas.join('<br>')}</pre>`;
+    descricaoModal.innerHTML = `<pre class="descricao-modal"><h2>${codigoSelecionado[0]} - ${tituloDescricao}</h2>${linhas.join('<br>')}</pre>`;
 
     const modal = document.getElementById("modal");
     modal.style.display = "block";

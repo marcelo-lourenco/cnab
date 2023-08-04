@@ -1,7 +1,22 @@
-
 {
-  "name": "cnab",
+  "name": "cnab-colorido",
   "version": "1.0.0",
+  "description": "visualizar arquivos CNAB240 e CNAB400 com a posições demarcadas por cores",
+  "main": "index.html",
   "license": "MIT",
-  "repository": "https://github.com/Marcelo-Lourenco/cnab"
+  "author": "Marcelo Lourenço",
+  "keywords": [
+    "CNAB 240",
+    "CNAB 400",
+    "FEBRABAN"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Marcelo-Lourenco/cnab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Marcelo-Lourenco/cnab/issues"
+  },
+  "homepage": "https://github.com/Marcelo-Lourenco/cnab",
+  "demo-url": "https://marcelo-lourenco.github.io/cnab/"
 }
