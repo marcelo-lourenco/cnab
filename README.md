@@ -23,7 +23,12 @@ Inclui descrição dos campos
 - [ ] Segmento G
 - [ ] Segmento H
 - [ ] Segmento Y
-- [ ] Segmento O
+- [x] Segmento O
+- [x] Segmento N
+- [x] Segmento N1
+- [x] Segmento N2
+- [x] Segmento N3
+- [x] Segmento N4
 - [ ] Segmento W
 - [x] Segmento Z
 - [x] Trailer Lote  

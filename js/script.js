@@ -81,6 +81,10 @@ function colorirTexto(linha, layoutArquivo) {
         tipo = "segmentoJ52";
       } else if (posicao(linha, 14, 14) === "J") {
         tipo = "segmentoJ";
+      } else if (posicao(linha, 14, 14) === "O") {
+        tipo = "segmentoO";
+      } else if (posicao(linha, 14, 14) === "N") { // TODO  lógica para N1, N2, N3 e N4
+        tipo = "segmentoN";
       } else if (posicao(linha, 14, 14) === "Z") {
         tipo = "segmentoZ";
       }
