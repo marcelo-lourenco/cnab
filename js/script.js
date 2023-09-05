@@ -134,6 +134,10 @@ function colorirTexto(linha, layoutArquivo) {
  * @param {Event} event - O evento de mudança de arquivo acionado pelo usuário.
  */
 function processarArquivo(event) {
+
+  const mainElement = document.getElementById("main");
+  mainElement.style.flex = 'none'; // Define a propriedade flex para none, removendo a flexibilidade.
+
   const file = event.target.files[0];
   const extensaoPermitida = ["txt", "rem", "ret"];
 

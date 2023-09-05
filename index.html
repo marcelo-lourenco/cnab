@@ -30,17 +30,19 @@
         <h3>SELECIONE O ARQUIVO CNAB</h3>
       </div>
       <div>
+        <h3 id="tipoArquivo">txt, rem ou ret</h3>
+      </div>
+      <div>
         <input type="file" id="fileInput" onchange="processarArquivo(event)" accept=".txt,.rem,.ret">
+      </div>
+      <div>
         <select id="codigoFiltro" onchange="exibirModal()">
           <option value="">Descrição dos Campos</option>
         </select>
       </div>
-      <div>
-        <h3 id="tipoArquivo">txt, rem ou ret</h3>
-      </div>
 
     </header>
-    <main>
+    <main id="main">
       <table id="conteudoColorido" class="conteudo-inicial"></table>
       </table>
     </main>
