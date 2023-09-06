@@ -93,7 +93,16 @@ function colorirTexto(linha, layoutArquivo) {
       } else if (posicao(linha, 14, 14) === "O") {
         tipo = "segmentoO";
       } else if (posicao(linha, 14, 14) === "N") { // TODO  lógica para N1, N2, N3 e N4
-        tipo = "segmentoN";
+
+        // PIS = 8301 e 5592 -----  // IR = 1708 
+        let receita = posicao(linha, 111, 116)
+        if (receita === '008301' || receita === '005592' || receita === '001708') {
+          tipo = "segmentoN2";
+        } else {
+          tipo = "segmentoNX";
+        }
+
+
       } else if (posicao(linha, 14, 14) === "Z") {
         tipo = "segmentoZ";
       }
@@ -131,7 +140,7 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 1px solid #FFF;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
+    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 1px solid #AAA;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
   }
 
   return resultado;
