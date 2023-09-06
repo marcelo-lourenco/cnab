@@ -25,6 +25,7 @@ let descricaoCampos = [];
  * @returns {string} O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
  */
 function identificarLayoutArquivo(primeiraLinha) {
+  /* 
   if (primeiraLinha.length === 240) {
     layoutArquivo = "CNAB240"
     return layoutArquivo;
@@ -33,6 +34,14 @@ function identificarLayoutArquivo(primeiraLinha) {
     return layoutArquivo;
   } else {
     return `${primeiraLinha.length} Ops! O arquivo selecionado não atende o layout.`;
+  }
+  */
+  if (primeiraLinha.length < 400) {
+    layoutArquivo = "CNAB240"
+    return layoutArquivo;
+  } else {
+    layoutArquivo = "CNAB400"
+    return layoutArquivo;
   }
   // return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
 }
@@ -122,7 +131,7 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
+    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 1px solid #FFF;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
   }
 
   return resultado;
