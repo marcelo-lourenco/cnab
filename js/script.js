@@ -96,7 +96,7 @@ function colorirTexto(linha, layoutArquivo) {
 
         // PIS = 8301 e 5592 -----  // IR = 1708 
         let receita = posicao(linha, 111, 116)
-        if (receita === '008301' || receita === '005592' || receita === '001708') {
+        if (receita === '008301' || receita === '8301  ' || receita === '005592' || receita === '5592  ' || receita === '001708' || receita === '1708  ') {
           tipo = "segmentoN2";
         } else {
           tipo = "segmentoNX";
