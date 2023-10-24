@@ -1,3 +1,4 @@
+
 const cores = [
   "#FFD700", // Ouro
   "#00CED1", // Azul Turquesa Média
@@ -25,25 +26,17 @@ let descricaoCampos = [];
  * @returns {string} O tipo de layout do arquivo: "CNAB240" ou "CNAB400".
  */
 function identificarLayoutArquivo(primeiraLinha) {
-  /* 
-  if (primeiraLinha.length === 240) {
-    layoutArquivo = "CNAB240"
-    return layoutArquivo;
-  } else if (primeiraLinha.length >= 400) {
-    layoutArquivo = "CNAB400"
-    return layoutArquivo;
-  } else {
-    return `${primeiraLinha.length} Ops! O arquivo selecionado não atende o layout.`;
-  }
-  */
-  if (primeiraLinha.length < 400) {
-    layoutArquivo = "CNAB240"
-    return layoutArquivo;
-  } else {
-    layoutArquivo = "CNAB400"
-    return layoutArquivo;
-  }
-  // return primeiraLinha.length === 240 ? "CNAB240" : "CNAB400";
+  primeiraLinha = primeiraLinha.replace(/\r/g, '').replace(/\r/g, '');
+
+  const layoutMapping = {
+    150: "CNAB150",
+    240: "CNAB240",
+    400: "CNAB400",
+  };
+
+  const primeiraLinhaLength = primeiraLinha.length;
+  const layoutArquivo = layoutMapping[primeiraLinhaLength] || `Layout inválido. Primeira linha com ${primeiraLinhaLength} posições.`;
+  return layoutArquivo;
 }
 
 
@@ -71,65 +64,83 @@ function colorirTexto(linha, layoutArquivo) {
   let colunasCNABTipo = [];
   let resultado = "";
 
-  if (layoutArquivo === "CNAB240") {
-
-    const tipoRegistro = posicao(linha, 8, 8);
-
-    if (tipoRegistro === "0") {
-      tipo = "headerArquivo";
-    } else if (tipoRegistro === "1") {
-      tipo = "headerLote";
-    } else if (tipoRegistro === "2") {
-      tipo = "iniciaisLote";
-    } else if (tipoRegistro === "3") {
-      if (posicao(linha, 14, 14) === "A") {
-        tipo = "segmentoA";
-      } else if (posicao(linha, 14, 14) === "B") {
-        tipo = "segmentoB";
-      } else if (posicao(linha, 14, 14) === "J" && posicao(linha, 18, 19) === "52") {
-        tipo = "segmentoJ52";
-      } else if (posicao(linha, 14, 14) === "J") {
-        tipo = "segmentoJ";
-      } else if (posicao(linha, 14, 14) === "O") {
-        tipo = "segmentoO";
-      } else if (posicao(linha, 14, 14) === "N") { // TODO  lógica para N1, N2, N3 e N4
-
-        // PIS = 8301 e 5592 -----  // IR = 1708 
-        let receita = posicao(linha, 111, 116)
-        if (receita === '008301' || receita === '8301  ' || receita === '005592' || receita === '5592  ' || receita === '001708' || receita === '1708  ') {
-          tipo = "segmentoN2";
-        } else {
-          tipo = "segmentoNX";
-        }
-
-
-      } else if (posicao(linha, 14, 14) === "Z") {
-        tipo = "segmentoZ";
-      }
-    } else if (tipoRegistro === "4") {
-      tipo = "finaisLote";
-    } else if (tipoRegistro === "5") {
-      tipo = "trailerLote";
-    } else if (tipoRegistro === "9") {
-      tipo = "trailerArquivo";
-    } else {
-      tipo = "";
-    }
-
-    colunasCNABTipo = colunasCNAB240[tipo] || [];
-
-  } else if (layoutArquivo === "CNAB400") {
+  // CNAB150
+  if (layoutArquivo === "CNAB150") {
 
     const primeiraPosicao = posicao(linha, 1, 1);
 
-    if (primeiraPosicao === "0") {
-      tipo = "tipo0";
-    } else if (primeiraPosicao === "1") {
-      tipo = "tipo1";
-    } else if (primeiraPosicao === "9") {
-      tipo = "tipo9";
-    } else {
-      tipo = "outros";
+    switch (primeiraPosicao) {
+      case "A": tipo = "registroA"; break; // HEADER
+      case "C": tipo = "registroC"; break; // OCORRÊNCIAS NO CADASTRAMENTO DO DÉBITO AUTOMÁTICO
+      case "D": tipo = "registroD"; break; // ALTERAÇÃO DE CHAVES PELA EMPRESA
+      case "F": tipo = "registroF"; break; // RETORNO DO DÉBITO AUTOMÁTICO
+      case "M": tipo = "registroM"; break; // INCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
+      case "N": tipo = "registroN"; break; // EXCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
+      case "O": tipo = "registroO"; break; // BLOQUEIO DE VALORES AGENDADOS
+      case "P": tipo = "registroP"; break; // ATUALIZAÇÃO DO CADASTRO DE CONCESSIONÁRIAS E SERVIÇOS
+      case "W": tipo = "registroW"; break; // DETALHE LANÇAMENTOS FUTUROS PARA CLIENTES
+      case "Z": tipo = "registroZ"; break; // TRAILLER
+      default: tipo = "outros";
+    }
+
+    colunasCNABTipo = colunasCNAB150[tipo] || [];
+  }
+
+  // CNAB240
+  else if (layoutArquivo === "CNAB240") {
+
+    const tipoRegistro = posicao(linha, 8, 8);
+
+    switch (tipoRegistro) {
+      case "0": tipo = "headerArquivo"; break;
+      case "1": tipo = "headerLote"; break;
+      case "2": tipo = "iniciaisLote"; break;
+      case "3":
+
+        switch (posicao(linha, 14, 14)) {
+          case "A": tipo = "segmentoA"; break;
+          case "B": tipo = "segmentoB"; break;
+          case "J":
+            if (posicao(linha, 18, 19) === "52") {
+              tipo = "segmentoJ52";
+            } else {
+              tipo = "segmentoJ";
+            }
+            break;
+          case "O": tipo = "segmentoO"; break;
+          case "N":
+            let receita = posicao(linha, 111, 116);
+            if (["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)) {
+              tipo = "segmentoN2";
+            } else {
+              tipo = "segmentoNX";
+            }
+            break;
+
+          case "Z": tipo = "segmentoZ"; break;
+          default: tipo = "outros";
+        }
+        break;
+
+      case "4": tipo = "finaisLote"; break;
+      case "5": tipo = "trailerLote"; break;
+      case "9": tipo = "trailerArquivo"; break;
+      default: tipo = "outros";
+    }
+
+    colunasCNABTipo = colunasCNAB240[tipo] || [];
+  }
+
+  // CNAB400
+  else if (layoutArquivo === "CNAB400") {
+
+    const primeiraPosicao = posicao(linha, 1, 1);
+
+    switch (primeiraPosicao) {
+      case "0": tipo = "tipo0"; break;
+      case "1": tipo = "tipo1"; break;
+      case "9": tipo = "tipo9"; break;
+      default: tipo = "outros";
     }
 
     colunasCNABTipo = colunasCNAB400[tipo] || [];
@@ -232,8 +243,27 @@ function limparCampoDescricao() {
 function preencherCampoDescricao(layoutArquivo) {
   const selectElement = document.getElementById('codigoFiltro');
 
-  descricaoCampos = layoutArquivo === "CNAB240" ? descricaoCampos240 : descricaoCampos400;
+  //descricaoCampos = layoutArquivo === "CNAB240" ? descricaoCampos240 : descricaoCampos400;
 
+  if (layoutArquivo === "CNAB150") {
+    descricaoCampos = descricaoCampos150;
+  } else if (layoutArquivo === "CNAB240") {
+    descricaoCampos = descricaoCampos240;
+  } else if (layoutArquivo === "CNAB400") {
+    descricaoCampos = descricaoCampos400;
+  } else {
+    descricaoCampos = "Não Localizado";
+  }
+  /* 
+    const descricaoCamposMapping = {
+      "CNAB150": descricaoCampos150,
+      "CNAB240": descricaoCampos240,
+      "CNAB400": descricaoCampos400,
+      "default": "Não Localizado"
+    };
+  
+    const descricaoCampos = descricaoCamposMapping[layoutArquivo] || descricaoCamposMapping["default"];
+   */
   descricaoCampos.forEach(item => {
     const option = document.createElement('option');
     selectElement.appendChild(option);

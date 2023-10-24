@@ -10,36 +10,49 @@ Inclui descrição dos campos
 
 ## Tipos Implementados
 
+### CNAB 150
+
+- [X] Descrição do Registro “A” HEADER 04
+- [X] Descrição do Registro “C” OCORRÊNCIAS NO CADASTRAMENTO DO DÉBITO AUTOMÁTICO
+- [X] Descrição do Registro “D” ALTERAÇÃO DE CHAVES PELA EMPRESA
+- [X] Descrição do Registro “F” RETORNO DO DÉBITO AUTOMÁTICO
+- [X] Descrição do Registro “M” INCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
+- [X] Descrição do Registro “N” EXCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
+- [X] Descrição do Registro “O” BLOQUEIO DE VALORES AGENDADOS
+- [X] Descrição do Registro “P” ATUALIZAÇÃO DO CADASTRO DE CONCESSIONÁRIAS E SERVIÇOS
+- [X] Descrição do Registro “W” DETALHE LANÇAMENTOS FUTUROS PARA CLIENTES
+- [X] Descrição do Registro “Z” TRAILLER
+
 ### CNAB 240
 
-- [x] Header Arquivo
-- [x] Header Lote
-- [x] Segmento A
-- [x] Segmento B
+- [X] Header Arquivo
+- [X] Header Lote
+- [X] Segmento A
+- [X] Segmento B
 - [ ] Segmento C
 - [ ] Segmento 5
-- [x] Segmento J
-- [x] Segmento J 52
+- [X] Segmento J
+- [X] Segmento J 52
 - [ ] Segmento G
 - [ ] Segmento H
 - [ ] Segmento Y
-- [x] Segmento O
-- [x] Segmento N
-- [x] Segmento N1
-- [x] Segmento N2
-- [x] Segmento N3
-- [x] Segmento N4
+- [X] Segmento O
+- [X] Segmento N
+- [X] Segmento N1
+- [X] Segmento N2
+- [X] Segmento N3
+- [X] Segmento N4
 - [ ] Segmento W
-- [x] Segmento Z
-- [x] Trailer Lote  
-- [x] Trailer Arquivo  
+- [X] Segmento Z
+- [X] Trailer Lote
+- [X] Trailer Arquivo
 
 ### CNAB 400
 
-- [x] Header Label
-- [x] Transação Tipo 1
+- [X] Header Label
+- [X] Transação Tipo 1
 - [ ] Transação Tipo 2
 - [ ] Transação Tipo 3
 - [ ] Transação Tipo 6
 - [ ] Transação Tipo 7
-- [x] Trailer
+- [X] Trailer

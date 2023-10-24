@@ -1,11 +1,12 @@
 {
   "name": "cnab-colorido",
   "version": "1.0.0",
-  "description": "visualizar arquivos CNAB240 e CNAB400 com a posições demarcadas por cores",
+  "description": "visualizar arquivos CNAB150, CNAB240 e CNAB400 com a posições demarcadas por cores",
   "main": "index.html",
   "license": "MIT",
   "author": "Marcelo Lourenço",
   "keywords": [
+    "CNAB 150",
     "CNAB 240",
     "CNAB 400",
     "FEBRABAN"
