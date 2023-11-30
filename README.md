@@ -30,6 +30,7 @@ Inclui descrição dos campos
 - [X] Segmento A
 - [X] Segmento B
 - [ ] Segmento C
+- [X] Segmento E
 - [ ] Segmento 5
 - [X] Segmento J
 - [X] Segmento J 52

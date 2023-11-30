@@ -100,6 +100,7 @@ function colorirTexto(linha, layoutArquivo) {
         switch (posicao(linha, 14, 14)) {
           case "A": tipo = "segmentoA"; break;
           case "B": tipo = "segmentoB"; break;
+          case "E": tipo = "segmentoE"; break;
           case "J":
             if (posicao(linha, 18, 19) === "52") {
               tipo = "segmentoJ52";
