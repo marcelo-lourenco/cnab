@@ -39,6 +39,11 @@ function identificarLayoutArquivo(primeiraLinha) {
   return layoutArquivo;
 }
 
+function identificarVersaoLayout(primeiraLinha) {
+  const versaoLayout = posicao(primeiraLinha, 164, 166)
+  return versaoLayout;
+}
+
 
 /**
  * Retorna a posição de um trecho dentro de uma string.
@@ -63,6 +68,7 @@ function colorirTexto(linha, layoutArquivo) {
   let tipo = "";
   let colunasCNABTipo = [];
   let resultado = "";
+
 
   // CNAB150
   if (layoutArquivo === "CNAB150") {
@@ -93,10 +99,18 @@ function colorirTexto(linha, layoutArquivo) {
 
     switch (tipoRegistro) {
       case "0": tipo = "headerArquivo"; break;
-      case "1": tipo = "headerLote"; break;
-      case "2": tipo = "iniciaisLote"; break;
-      case "3":
 
+      case "1":
+        if (versaoLayout === "050") { // Extrato
+          tipo = "headerLoteE";
+        } else {
+          tipo = "headerLote";
+        }
+        break;
+
+      case "2": tipo = "iniciaisLote"; break;
+
+      case "3":
         switch (posicao(linha, 14, 14)) {
           case "A": tipo = "segmentoA"; break;
           case "B": tipo = "segmentoB"; break;
@@ -124,7 +138,15 @@ function colorirTexto(linha, layoutArquivo) {
         break;
 
       case "4": tipo = "finaisLote"; break;
-      case "5": tipo = "trailerLote"; break;
+
+      case "5":
+        if (versaoLayout === "050") { // Extrato
+          tipo = "trailerLoteE";
+        } else {
+          tipo = "trailerLote";
+        }
+        break;
+
       case "9": tipo = "trailerArquivo"; break;
       default: tipo = "outros";
     }
@@ -184,6 +206,7 @@ function processarArquivo(event) {
 
         // Identificar o layout do arquivo com base na primeira linha
         layoutArquivo = identificarLayoutArquivo(linhas[0]);
+        versaoLayout = identificarVersaoLayout(linhas[0]);
 
         // Antes de preencher, limpar o campo de seleção
         limparCampoDescricao();
