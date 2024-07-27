@@ -50,6 +50,8 @@ Inclui descrição dos campos
 
 ### CNAB 400
 
+####Remessa
+
 - [X] Header Label
 - [X] Transação Tipo 1
 - [ ] Transação Tipo 2
@@ -57,3 +59,14 @@ Inclui descrição dos campos
 - [ ] Transação Tipo 6
 - [ ] Transação Tipo 7
 - [X] Trailer
+  
+####Retorno
+
+- [X] Header Label
+- [X] Transação Tipo 1
+- [ ] Transação Tipo 2
+- [ ] Transação Tipo 3
+- [ ] Transação Tipo 6
+- [ ] Transação Tipo 7
+- [X] Trailer
+
