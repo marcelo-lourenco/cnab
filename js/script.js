@@ -17,6 +17,7 @@ const cores = [
 ];
 
 let layoutArquivo = "";
+let tipoArquivo = "";
 let descricaoCampos = [];
 
 
@@ -42,6 +43,21 @@ function identificarLayoutArquivo(primeiraLinha) {
 function identificarVersaoLayout(primeiraLinha) {
   const versaoLayout = posicao(primeiraLinha, 164, 166)
   return versaoLayout;
+}
+
+function identificarTipoArquivo(primeiraLinha, layoutArquivo) {
+  if ( layoutArquivo === "CNAB400") {
+    const tipoArq = posicao(primeiraLinha, 2, 2)
+    if (tipoArq === "1") {
+      return "remessa"
+    } else if (tipoArq === "2"){
+      return "retorno"
+    }
+    
+  } else {
+    return "";
+  } 
+    
 }
 
 
@@ -158,13 +174,23 @@ function colorirTexto(linha, layoutArquivo) {
   else if (layoutArquivo === "CNAB400") {
 
     const primeiraPosicao = posicao(linha, 1, 1);
+    if (tipoArquivo === "remessa"){
+      switch (primeiraPosicao) {
+        case "0": tipo = "remessaTipo0"; break;
+        case "1": tipo = "remessaTipo1"; break;
+        case "9": tipo = "remessaTipo9"; break;
+        default: tipo = "outros";
+      }
+    } else if (tipoArquivo === "retorno"){
+      switch (primeiraPosicao) {
+        case "0": tipo = "retornoTipo0"; break;
+        case "1": tipo = "retornoTipo1"; break;
+        case "9": tipo = "retornoTipo9"; break;
+        default: tipo = "outros";
+      }
 
-    switch (primeiraPosicao) {
-      case "0": tipo = "tipo0"; break;
-      case "1": tipo = "tipo1"; break;
-      case "9": tipo = "tipo9"; break;
-      default: tipo = "outros";
     }
+    
 
     colunasCNABTipo = colunasCNAB400[tipo] || [];
   }
@@ -207,6 +233,7 @@ function processarArquivo(event) {
         // Identificar o layout do arquivo com base na primeira linha
         layoutArquivo = identificarLayoutArquivo(linhas[0]);
         versaoLayout = identificarVersaoLayout(linhas[0]);
+        tipoArquivo = identificarTipoArquivo(linhas[0], layoutArquivo); // cnab 400 - 1=remessa, 2=Retorno 
 
         // Antes de preencher, limpar o campo de seleção
         limparCampoDescricao();
@@ -235,7 +262,7 @@ function processarArquivo(event) {
         tabelaConteudo.classList.remove('conteudo-inicial');
 
         // Inserir o layout do arquivo selecionado dentro do elemento <div> com o id "tipoArquivo"
-        document.getElementById('tipoArquivo').textContent = `${layoutArquivo}`;
+        document.getElementById('layoutArquivo').textContent = `${layoutArquivo}`;
       };
 
       reader.readAsText(file);
