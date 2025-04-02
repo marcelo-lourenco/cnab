@@ -1,5 +1,7 @@
+const EXTENSOES_PERMITIDAS = ["txt", "rem", "ret"];
 
-const cores = [
+// Cores para tema dark (alto contraste com fundo preto)
+const coresDark = [
   "#FFD700", // Ouro
   "#00CED1", // Azul Turquesa Média
   "#DA70D6", // Orquídea Média
@@ -13,13 +15,56 @@ const cores = [
   "#FFA500", // Laranja
   "#ADFF2F", // Verde Amarelo
   "#FF69B4", // Rosa Choque
-  "#FFFF00", // Amarelo
+  "#FF0000", // Vermelho puro
+  "#00FF00", // Verde puro
+  "#0000FF", // Azul puro
+  "#FF00FF", // Magenta vibrante
+  "#FFFF00", // Amarelo vibrante
+  "#00FFFF", // Ciano vibrante
+  "#FF8000", // Laranja intenso
+  "#FF0080", // Rosa neon
+  "#8000FF", // Roxo intenso
+  "#00FF80", // Verde-água brilhante
+  "#FF4000", // Vermelho-alaranjado
+  "#40FF00", // Verde-limão
+  "#0040FF", // Azul royal
+  "#FF00BF"  // Magenta profundo
+];
+
+// Cores para tema light (alto contraste com fundo branco)
+const coresLight = [
+  "#FFD700", // Ouro
+  "#00CED1", // Azul Turquesa Média
+  "#DA70D6", // Orquídea Média
+  "#FF1493", // Rosa Choque
+  "#8A2BE2", // Azul Violeta
+  "#32CD32", // Verde Limão
+  "#FF4500", // Laranja Vermelho
+  "#69dcff", // Turquesa Brilhante
+  "#FF6347", // Tomate
+  "#1E90FF", // Azul Dodger
+  "#FFA500", // Laranja
+  "#FF69B4", // Rosa Choque
+  "#FF0000", // Vermelho puro
+  "#FF00FF", // Magenta vibrante
+  "#FF8000", // Laranja intenso
+  "#FF0080", // Rosa neon
+  "#8000FF", // Roxo intenso
+  "#FF4000", // Vermelho-alaranjado
+  "#0040FF", // Azul royal
+  "#FF00BF"  // Magenta profundo
 ];
 
 let layoutArquivo = "";
 let tipoArquivo = "";
 let descricaoCampos = [];
+let versaoLayout = "";
 
+// Função para obter as cores baseadas no tema atual
+function getCoresPorTema() {
+  const theme = document.documentElement.getAttribute('data-bs-theme');
+  return theme === 'dark' ? coresDark : coresLight;
+}
 
 /**
  * Identifica o layout do arquivo (CNAB240 ou CNAB400) com base na primeira linha.
@@ -46,20 +91,17 @@ function identificarVersaoLayout(primeiraLinha) {
 }
 
 function identificarTipoArquivo(primeiraLinha, layoutArquivo) {
-  if ( layoutArquivo === "CNAB400") {
+  if (layoutArquivo === "CNAB400") {
     const tipoArq = posicao(primeiraLinha, 2, 2)
     if (tipoArq === "1") {
       return "remessa"
-    } else if (tipoArq === "2"){
+    } else if (tipoArq === "2") {
       return "retorno"
     }
-    
   } else {
     return "";
-  } 
-    
+  }
 }
-
 
 /**
  * Retorna a posição de um trecho dentro de uma string.
@@ -72,7 +114,6 @@ function posicao(linha, ini, fin) {
   return linha.slice((ini - 1), fin);
 }
 
-
 /**
  * Colore o texto da linha e aplicar o tooltip com base no layout do arquivo.
  * @param {string} linha - A linha do arquivo a ser colorida e processada.
@@ -80,117 +121,88 @@ function posicao(linha, ini, fin) {
  * @returns {string} O conteúdo da linha colorida com os tooltips aplicados.
  */
 function colorirTexto(linha, layoutArquivo) {
-
+  const cores = getCoresPorTema();
   let tipo = "";
   let colunasCNABTipo = [];
   let resultado = "";
 
-
   // CNAB150
   if (layoutArquivo === "CNAB150") {
-
     const primeiraPosicao = posicao(linha, 1, 1);
 
     switch (primeiraPosicao) {
-      case "A": tipo = "registroA"; break; // HEADER
-      case "C": tipo = "registroC"; break; // OCORRÊNCIAS NO CADASTRAMENTO DO DÉBITO AUTOMÁTICO
-      case "D": tipo = "registroD"; break; // ALTERAÇÃO DE CHAVES PELA EMPRESA
-      case "F": tipo = "registroF"; break; // RETORNO DO DÉBITO AUTOMÁTICO
-      case "M": tipo = "registroM"; break; // INCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
-      case "N": tipo = "registroN"; break; // EXCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
-      case "O": tipo = "registroO"; break; // BLOQUEIO DE VALORES AGENDADOS
-      case "P": tipo = "registroP"; break; // ATUALIZAÇÃO DO CADASTRO DE CONCESSIONÁRIAS E SERVIÇOS
-      case "W": tipo = "registroW"; break; // DETALHE LANÇAMENTOS FUTUROS PARA CLIENTES
-      case "Z": tipo = "registroZ"; break; // TRAILLER
+      case "A": tipo = "registroA"; break;
+      case "C": tipo = "registroC"; break;
+      case "D": tipo = "registroD"; break;
+      case "F": tipo = "registroF"; break;
+      case "M": tipo = "registroM"; break;
+      case "N": tipo = "registroN"; break;
+      case "O": tipo = "registroO"; break;
+      case "P": tipo = "registroP"; break;
+      case "W": tipo = "registroW"; break;
+      case "Z": tipo = "registroZ"; break;
       default: tipo = "outros";
     }
 
     colunasCNABTipo = colunasCNAB150[tipo] || [];
   }
-
   // CNAB240
   else if (layoutArquivo === "CNAB240") {
-
     const tipoRegistro = posicao(linha, 8, 8);
 
     switch (tipoRegistro) {
       case "0": tipo = "headerArquivo"; break;
-
       case "1":
-        if (versaoLayout === "050") { // Extrato
-          tipo = "headerLoteE";
-        } else {
-          tipo = "headerLote";
-        }
+        tipo = versaoLayout === "050" ? "headerLoteE" : "headerLote";
         break;
-
       case "2": tipo = "iniciaisLote"; break;
-
       case "3":
         switch (posicao(linha, 14, 14)) {
           case "A": tipo = "segmentoA"; break;
           case "B": tipo = "segmentoB"; break;
           case "E": tipo = "segmentoE"; break;
           case "J":
-            if (posicao(linha, 18, 19) === "52") {
-              tipo = "segmentoJ52";
-            } else {
-              tipo = "segmentoJ";
-            }
+            tipo = posicao(linha, 18, 19) === "52" ? "segmentoJ52" : "segmentoJ";
             break;
           case "O": tipo = "segmentoO"; break;
           case "N":
             let receita = posicao(linha, 111, 116);
-            if (["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)) {
-              tipo = "segmentoN2";
-            } else {
-              tipo = "segmentoNX";
-            }
+            tipo = ["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)
+              ? "segmentoN2" : "segmentoNX";
             break;
-
           case "Z": tipo = "segmentoZ"; break;
           default: tipo = "outros";
         }
         break;
-
       case "4": tipo = "finaisLote"; break;
-
       case "5":
-        if (versaoLayout === "050") { // Extrato
-          tipo = "trailerLoteE";
-        } else {
-          tipo = "trailerLote";
-        }
+        tipo = versaoLayout === "050" ? "trailerLoteE" : "trailerLote";
         break;
-
       case "9": tipo = "trailerArquivo"; break;
       default: tipo = "outros";
     }
 
     colunasCNABTipo = colunasCNAB240[tipo] || [];
   }
-
   // CNAB400
   else if (layoutArquivo === "CNAB400") {
-
     const primeiraPosicao = posicao(linha, 1, 1);
-    if (tipoArquivo === "remessa"){
+
+    if (tipoArquivo === "remessa") {
       switch (primeiraPosicao) {
         case "0": tipo = "remessaTipo0"; break;
         case "1": tipo = "remessaTipo1"; break;
         case "9": tipo = "remessaTipo9"; break;
         default: tipo = "outros";
       }
-    } else if (tipoArquivo === "retorno"){
+    } else if (tipoArquivo === "retorno") {
       switch (primeiraPosicao) {
         case "0": tipo = "retornoTipo0"; break;
         case "1": tipo = "retornoTipo1"; break;
         case "9": tipo = "retornoTipo9"; break;
         default: tipo = "outros";
       }
-
     }
-    
 
     colunasCNABTipo = colunasCNAB400[tipo] || [];
   }
@@ -200,12 +212,11 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 1px solid #AAA;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
+    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 0px solid #AAA;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
   }
 
   return resultado;
 }
-
 
 /**
  * Processa o arquivo selecionado pelo usuário.
@@ -332,11 +343,11 @@ function preencherCampoDescricao(layoutArquivo) {
  */
 function exibirTooltip(event, descricao) {
   const tooltip = document.createElement("div");
-  tooltip.classList.add("tooltip"); // Adiciona a classe 'tooltip' ao elemento
+  tooltip.classList.add("tooltip-descricao"); // Adiciona a classe 'tooltip' ao elemento
 
   // Ícone de ajuda dentro do tooltip
   const icon = document.createElement("span");
-  icon.classList.add("tooltip-icon");
+  icon.classList.add("tooltip-icon-descricao"); // Adiciona a classe 'tooltip-icon' ao elemento
   icon.innerText = "?";
   tooltip.appendChild(icon);
 
@@ -380,8 +391,8 @@ function exibirTooltip(event, descricao) {
  * @param {string} descricao - A descrição do conteúdo a ser exibida no tooltip.
  */
 function exibirModal(codigoDescricao) {
-  let codigoFiltro = codigoDescricao ? codigoDescricao : document.getElementById("codigoFiltro").value;
-  if (codigoFiltro === "") return;
+  const codigoFiltro = codigoDescricao || document.getElementById("codigoFiltro").value;
+  if (!codigoFiltro) return;
 
   const codigoSelecionado = descricaoCampos.find((item) => item[0] === codigoFiltro);
 
@@ -390,17 +401,13 @@ function exibirModal(codigoDescricao) {
     const linhas = codigoSelecionado[1].split('\n');
     const tituloDescricao = linhas.shift(); // Retira a primeira linha do texto (título da descrição)
 
-    descricaoModal.innerHTML = `<pre class="descricao-modal"><h2>${codigoSelecionado[0]} - ${tituloDescricao}</h2>${linhas.join('<br>')}</pre>`;
+    // Atualiza o título e o conteúdo do modal
+    document.getElementById("exampleModalLabel").textContent = `${codigoSelecionado[0]} - ${tituloDescricao}`;
+    descricaoModal.innerHTML = `<pre>${linhas.join('<br>')}</pre>`;
 
-    const modal = document.getElementById("modal");
-    modal.style.display = "block";
-
-    const modalContent = document.getElementById("modalContent");
-    const windowHeight = window.innerHeight;
-    const contentHeight = modalContent.offsetHeight;
-    if (contentHeight >= windowHeight) {
-      modalContent.classList.add("scrollbar");
-    }
+    // Exibe o modal usando Bootstrap
+    const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+    modal.show();
   }
 }
 
