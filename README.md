@@ -86,4 +86,4 @@ Inclui descrição dos campos
 
 Contribuições são bem-vindas! Sinta-se à vontade para bifurcar o repositório e enviar suas solicitações de pull.
 
-[Código de Conduta](https://github.com/marcelo-lourenco/cnab?tab=coc-ov-file#readme) • [Licença MIT](https://github.com/marcelo-lourenco/cnab?tab=MIT-1-ov-file#readme) • [Segurança](https://github.com/marcelo-lourenco/cnab/security) • [Changelog](https://github.com/marcelo-lourenco/cnab/blob/master/CHANGELOG.md) • [Fórum](https://github.com/marcelo-lourenco/cnab/discussions)
+[Código de Conduta](https://github.com/marcelo-lourenco/cnab?tab=coc-ov-file#readme) • [Licença MIT](https://github.com/marcelo-lourenco/cnab?tab=MIT-1-ov-file#readme) • [Segurança](https://github.com/marcelo-lourenco/cnab?tab=security-ov-file) • [Changelog](https://github.com/marcelo-lourenco/cnab/blob/master/CHANGELOG.md) • [Fórum](https://github.com/marcelo-lourenco/cnab/discussions)

@@ -17,7 +17,7 @@ Versões do seu projeto que estão atualmente sendo suportado com atualizações
 
 Levamos a segurança do nosso projeto a sério. Se você descobrir uma vulnerabilidade, siga os passos abaixo para reportá-la:
 
-1. **Onde Reportar**:  
+1. **Onde Reportar**:
    - Por favor, reporte vulnerabilidades enviando um mensagem para a nossa equipe de segurança em [Report a vulnerability](https://github.com/marcelo-lourenco/cnab/security/advisories/new). Inclua o máximo de detalhes possível sobre o problema, incluindo etapas para reproduzi-lo.
 
 2. **O que Incluir**:
@@ -44,4 +44,3 @@ Levamos a segurança do nosso projeto a sério. Se você descobrir uma vulnerabi
    - Se o seu relatório de vulnerabilidade for aceito e você concordar, reconheceremos sua contribuição na seção de segurança das notas de lançamento.
 
 Agradecemos seus esforços para nos ajudar a manter a segurança e a integridade do nosso projeto. Muito obrigado pela sua contribuição!
-
