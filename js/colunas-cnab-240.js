@@ -1,6 +1,6 @@
 
 // Definição das colunas para cada tipo de arquivo CNAB240
-const colunasCNAB240 = {
+const colunasCNAB240Bradesco = {
   headerArquivo: [
     [1, 3, { descricao: ["001 a 003", "G001", "Controle", "Código do Banco na Compensação"] }],
     [4, 7, { descricao: ["004 a 007", "G002", "Controle", "Lote de Serviço"] }],
@@ -153,7 +153,7 @@ const colunasCNAB240 = {
     [8, 8, { descricao: ["008 a 008", "G003", "Controle", "TIPO DE REGISTRO"] }],
     [9, 13, { descricao: ["009 a 013", "G038", "Serviços", "Nº SEQUENCIAL DO REGISTRO NO LOTE"] }],
     [14, 14, { descricao: ["014 a 014", "G039", "Serviços", "CÓDIGO DO SEGMENTO DO REG.DETALHE"] }],
-    [15, 15, { descricao: ["015 a 015", "E027", "Serviços", "'O' REAL, 'I' SIMULADO"] }],
+    [15, 15, { descricao: ["015 a 015", "E027", "Serviços", "O REAL, I SIMULADO"] }],
     [16, 17, { descricao: ["016 a 017", "G004", "CNAB USO", "EXCLUSIVO DA FEBRABAN / CNAB"] }],
     [18, 18, { descricao: ["018 a 018", "G005", "Empresa", "TIPO DE INSCRIÇÃO DA EMPRESA"] }],
     [19, 32, { descricao: ["019 a 032", "G006", "Empresa", "Nº DE INSCRIÇÃO DA EMPRESA"] }],
@@ -177,7 +177,8 @@ const colunasCNAB240 = {
     [173, 176, { descricao: ["173 a 176", "E013", "Lançamento", "CÓDIGO DO LANÇAMENTO NO BANCO"] }],
     [177, 201, { descricao: ["177 a 201", "E014", "Lançamento", "DESCRIÇÃO DO HISTÓRICO DO LANÇAMENTO NO BANCO"] }],
     [202, 208, { descricao: ["202 a 208", "E015", "Lançamento", "Nº DOCUMENTO COMPROBATÓRIO DO LANÇAMENTO"] }],
-    [209, 240, { descricao: ["209 a 240", "    ", "Lançamento", "2º LINHA DO EXTRATO DE CONTA CORRENTE"] }]],
+    [209, 240, { descricao: ["209 a 240", "    ", "Lançamento", "2º LINHA DO EXTRATO DE CONTA CORRENTE"] }]
+  ],
 
   segmentoJ: [
     [1, 3, { descricao: ["001 a 003", "G001", "Controle", "Código no Banco da Compensação"] }],
@@ -328,7 +329,7 @@ const colunasCNAB240 = {
     [119, 132, { descricao: ["119 a 132", "N004", "Identificação do Contribuinte", "Identificação do Contribuinte"] }],
     [133, 134, { descricao: ["133 a 134", "N005", "Identificação do Tributo", "Código de Identificação do Tributo"] }],
     [135, 142, { descricao: ["135 a 142", "G044", "Vencimento", "Data de Vencimento"] }],
-    [143, 154, { descricao: ["143 a 154", "N012", "IE / MUNIC / DECLAR", "'Inscrição Estadual / Código do Município / Número da Declaração'"] }],
+    [143, 154, { descricao: ["143 a 154", "N012", "IE / MUNIC / DECLAR", "Inscrição Estadual / Código do Município / Número da Declaração"] }],
     [155, 167, { descricao: ["155 a 167", "N013", "Dívida Ativa / Etiqueta", "Dívida Ativa / N.Etiqueta"] }],
     [168, 173, { descricao: ["168 a 173", "N006", "Referência", "Período de Referência"] }],
     [174, 186, { descricao: ["174 a 186", "N014", "N.Parcela / Notificação", "Número da Parcela / Notificação"] }],
@@ -438,6 +439,260 @@ const colunasCNAB240 = {
     [24, 29, { descricao: ["024 a 029", "G056", "Totais", "Quantidade de Registros do Arquivo"] }],
     [30, 35, { descricao: ["030 a 035", "G037", "Totais", "Qtde de Contas p/ Conc. (Lotes)"] }],
     [36, 240, { descricao: ["036 a 240", "G004", "CNAB", "Uso Exclusivo FEBRABAN/CNAB"] }]
+  ],
+  outros: []
+}
+
+
+const colunasCNAB240Itau = {
+  headerArquivo: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código do Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Header de Arquivo"] }],
+    [9, 14, { descricao: ["009 a 014", "Brancos", "Complemento de Registro"] }],
+    [15, 17, { descricao: ["015 a 017", "Layout do Arquivo", "Nº da Versão do Layout do Arquivo"] }],
+    [18, 18, { descricao: ["018 a 018", "Empresa - Inscrição", "Tipo de Inscrição da Empresa"] }],
+    [19, 32, { descricao: ["019 a 032", "Inscrição Número", "CNPJ ou CPF da Empresa Debitada"] }],
+    [33, 52, { descricao: ["033 a 052", "Brancos", "Complemento de Registro"] }],
+    [53, 57, { descricao: ["053 a 057", "Agência", "Número da Agência Debitada"] }],
+    [58, 58, { descricao: ["058 a 058", "Brancos", "Complemento de Registro"] }],
+    [59, 70, { descricao: ["059 a 070", "Conta", "Número da Conta Corrente Debitada"] }],
+    [71, 71, { descricao: ["071 a 071", "Brancos", "Complemento de Registro"] }],
+    [72, 72, { descricao: ["072 a 072", "DAC", "DAC da Agência/Conta Debitada"] }],
+    [73, 102, { descricao: ["073 a 102", "Nome da Empresa", "Nome da Empresa"] }],
+    [103, 132, { descricao: ["103 a 132", "Nome do Banco", "Nome do Banco"] }],
+    [133, 142, { descricao: ["133 a 142", "Brancos", "Complemento de Registro"] }],
+    [143, 143, { descricao: ["143 a 143", "Arquivo-Código", "Código Remessa/Retorno"] }],
+    [144, 151, { descricao: ["144 a 151", "Data de Geração", "Data de Geração do Arquivo"] }],
+    [152, 157, { descricao: ["152 a 157", "Hora de Geração", "Hora de Geração do Arquivo"] }],
+    [158, 166, { descricao: ["158 a 166", "Zeros", "Complemento de Registro"] }],
+    [167, 171, { descricao: ["167 a 171", "Unidade de Densidade", "Densidade de Gravação do Arquivo"] }],
+    [172, 240, { descricao: ["172 a 240", "Brancos", "Complemento de Registro"] }]
+  ],
+  headerLote: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código do Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote Identificação de Pagamentos"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Header de Lote"] }],
+    [9, 9, { descricao: ["009 a 009", "Tipo de Operação", "Tipo da Operação"] }],
+    [10, 11, { descricao: ["010 a 011", "Tipo de Pagamento", "Tipo de Pagamento"] }],
+    [12, 13, { descricao: ["012 a 013", "Forma de Pagamento", "Forma de Pagamento"] }],
+    [14, 16, { descricao: ["014 a 016", "Layout do Lote", "Nº da Versão do Layout do Lote"] }],
+    [17, 17, { descricao: ["017 a 017", "Brancos", "Complemento de Registro"] }],
+    [18, 18, { descricao: ["018 a 018", "Empresa - Inscrição", "Tipo Inscrição Empresa Debitada"] }],
+    [19, 32, { descricao: ["019 a 032", "Inscrição Número", "CNPJ Empresa Debitada"] }],
+    [33, 36, { descricao: ["033 a 036", "Identificação do Lançamento", "Identificação do Lançamento no Extrato do Favorecido"] }],
+    [37, 52, { descricao: ["037 a 052", "Brancos", "Complemento de Registro"] }],
+    [53, 57, { descricao: ["053 a 057", "Agência", "Número Agência Debitada"] }],
+    [58, 58, { descricao: ["058 a 058", "Brancos", "Complemento de Registro"] }],
+    [59, 70, { descricao: ["059 a 070", "Conta", "Número de C/C Debitada"] }],
+    [71, 71, { descricao: ["071 a 071", "Brancos", "Complemento de Registro"] }],
+    [72, 72, { descricao: ["072 a 072", "DAC", "DAC da Agência/Conta Debitada"] }],
+    [73, 102, { descricao: ["073 a 102", "Nome da Empresa", "Nome da Empresa Debitada"] }],
+    [103, 132, { descricao: ["103 a 132", "Finalidade do Lote", "Finalidade dos Pagamentos do Lote"] }],
+    [133, 142, { descricao: ["133 a 142", "Histórico de C/C", "Complemento Histórico C/C Debitada"] }],
+    [143, 172, { descricao: ["143 a 172", "Endereço da Empresa", "Nome da Rua, Av, Pça, Etc..."] }],
+    [173, 177, { descricao: ["173 a 177", "Número", "Número do Local"] }],
+    [178, 192, { descricao: ["178 a 192", "Complemento", "Casa, Apto, Sala, Etc..."] }],
+    [193, 212, { descricao: ["193 a 212", "Cidade", "Nome da Cidade"] }],
+    [213, 220, { descricao: ["213 a 220", "CEP", "CEP"] }],
+    [221, 222, { descricao: ["221 a 222", "Estado", "Sigla do Estado"] }],
+    [223, 230, { descricao: ["223 a 230", "Brancos", "Complemento de Registro"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código Ocorrências p/Retorno"] }]
+  ],
+
+  headerLoteE: [
+
+  ],
+
+  segmentoA: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Tipo de Movimento", "Tipo de Movimento"] }],
+    [18, 20, { descricao: ["018 a 020", "Câmara", "Código da Câmara Centralizadora"] }],
+    [21, 23, { descricao: ["021 a 023", "Banco Favorecido", "Código Banco Favorecido"] }],
+    [24, 43, { descricao: ["024 a 043", "Agência Conta", "Agência Conta Favorecido"] }],
+    [44, 73, { descricao: ["044 a 073", "Nome do Favorecido", "Nome do Favorecido"] }],
+    [74, 93, { descricao: ["074 a 093", "Seu Número", "Nº Docto Atribuído pela Empresa"] }],
+    [94, 101, { descricao: ["094 a 101", "Data de Pagto", "Data Prevista para Pagto"] }],
+    [102, 104, { descricao: ["102 a 104", "Moeda - Tipo", "Tipo da Moeda"] }],
+    [105, 112, { descricao: ["105 a 112", "Código ISPB", "Identificação da Instituição para o SPB"] }],
+    [113, 114, { descricao: ["113 a 114", "Identi. Transferência", "Conta Pagamento / PIX"] }],
+    [115, 119, { descricao: ["115 a 119", "Zeros", "Complemento de Registro"] }],
+    [120, 134, { descricao: ["120 a 134", "Valor do Pagto", "Valor Previsto do Pagto"] }],
+    [135, 149, { descricao: ["135 a 149", "Nosso Número", "Nº Docto Atribuído pelo Banco"] }],
+    [150, 154, { descricao: ["150 a 154", "Brancos", "Complemento de Registro"] }],
+    [155, 162, { descricao: ["155 a 162", "Data Efetiva", "Data Real Efetivação do Pagto"] }],
+    [163, 177, { descricao: ["163 a 177", "Valor Efetivo", "Valor Real Efetivação do Pagto"] }],
+    [178, 197, { descricao: ["178 a 197", "Finalidade Detalhe", "Informação Complementar p/ Hist. de C/C"] }],
+    [198, 203, { descricao: ["198 a 203", "Nº do Documento", "Nº do Doc/TED/OP/Cheque no Retorno"] }],
+    [204, 217, { descricao: ["204 a 217", "Nº de Inscrição", "Nº de Inscrição do Favorecido (CPF/CNPJ)"] }],
+    [218, 219, { descricao: ["218 a 219", "Finalidade do Doc e Status Funcionário", "Finalidade do Doc e Status do Funcionário na Empresa"] }],
+    [220, 224, { descricao: ["220 a 224", "Finalidade TED", "Finalidade da TED"] }],
+    [225, 229, { descricao: ["225 a 229", "Brancos", "Complemento de Registro"] }],
+    [230, 230, { descricao: ["230 a 230", "Aviso", "Aviso ao Favorecido"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código Ocorrências no Retorno"] }]
+  ],
+
+  segmentoB: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Código do Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Brancos", "Complemento de Registro"] }],
+    [18, 18, { descricao: ["018 a 018", "Empresa - Inscrição", "Tipo Inscrição do Favorecido"] }],
+    [19, 32, { descricao: ["019 a 032", "Nº de Inscrição", "Nº de Inscrição do Favorecido (CPF/CNPJ)"] }],
+    [33, 62, { descricao: ["033 a 062", "Endereço", "Nome da Rua, Av, Pça, Etc"] }],
+    [63, 67, { descricao: ["063 a 067", "Número", "Número do Local"] }],
+    [68, 82, { descricao: ["068 a 082", "Complemento", "Casa, Apto, Etc"] }],
+    [83, 97, { descricao: ["083 a 097", "Bairro", "Bairro"] }],
+    [98, 117, { descricao: ["098 a 117", "Cidade", "Nome da Cidade"] }],
+    [118, 125, { descricao: ["118 a 125", "CEP", "CEP"] }],
+    [126, 127, { descricao: ["126 a 127", "Estado", "Sigla do Estado"] }],
+    [128, 227, { descricao: ["128 a 227", "E-mail", "Endereço de E-mail"] }],
+    [228, 230, { descricao: ["228 a 230", "Brancos", "Complemento de Registro"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código de Ocorrências no Retorno"] }]
+  ],
+
+  segmentoE: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe do Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Código do Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Brancos", "Complemento de Registro"] }],
+    [18, 18, { descricao: ["018 a 018", "Movimento", "Tipo de Movimento"] }],
+    [19, 218, { descricao: ["019 a 218", "Informações Complementares", "Informações Complementares para Holerite ou Informe de Rendimentos"] }],
+    [219, 230, { descricao: ["219 a 230", "Brancos", "Complemento de Registro"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código Ocorrência para Retorno"] }]
+  ],
+
+  segmentoJ: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Tipo de Movimento", "Tipo de Movimento"] }],
+    [18, 20, { descricao: ["018 a 020", "Banco Favorecido", "Cód. de Barras - Código Banco Favorecido"] }],
+    [21, 21, { descricao: ["021 a 021", "Moeda", "Cód. de Barras - Código da Moeda"] }],
+    [22, 22, { descricao: ["022 a 022", "DV", "Cód. de Barras - Dígito Verif. do Cód. Barras"] }],
+    [23, 26, { descricao: ["023 a 026", "Vencimento", "Cód. de Barras - Fator de Vencimento"] }],
+    [27, 36, { descricao: ["027 a 036", "Valor", "Cód. de Barras - Valor"] }],
+    [37, 61, { descricao: ["037 a 061", "Campo Livre", "Cód. de Barras - Campo Livre"] }],
+    [62, 91, { descricao: ["062 a 091", "Nome do Favorecido", "Nome do Favorecido"] }],
+    [92, 99, { descricao: ["092 a 099", "Data Vencimento", "Data do Vencimento (Nominal)"] }],
+    [100, 114, { descricao: ["100 a 114", "Valor do Título", "Valor do Título (Nominal)"] }],
+    [115, 129, { descricao: ["115 a 129", "Descontos", "Valor do Desconto + Abatimento"] }],
+    [130, 144, { descricao: ["130 a 144", "Acréscimos", "Valor da Mora + Multa"] }],
+    [145, 152, { descricao: ["145 a 152", "Data Pagamento", "Data do Pagamento"] }],
+    [153, 167, { descricao: ["153 a 167", "Valor Pagamento", "Valor do Pagamento"] }],
+    [168, 182, { descricao: ["168 a 182", "Zeros", "Complemento de Registro"] }],
+    [183, 202, { descricao: ["183 a 202", "Seu Número", "Nº Docto Atribuído pela Empresa"] }],
+    [203, 215, { descricao: ["203 a 215", "Brancos", "Complemento de Registro"] }],
+    [216, 230, { descricao: ["216 a 230", "Nosso Número", "Número Atribuído pelo Banco"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código de Ocorrências p/ Retorno"] }]
+  ],
+
+  segmentoJ52: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Tipo de Movimento", "Tipo de Movimento"] }],
+    [18, 19, { descricao: ["018 a 019", "Código do Registro", "Identificação do Registro Opcional"] }],
+    [20, 20, { descricao: ["020 a 020", "Tipo Inscrição Sacado", "Tipo de Inscrição do Sacado"] }],
+    [21, 35, { descricao: ["021 a 035", "Número Inscrição Sacado", "Número de Inscrição do Sacado"] }],
+    [36, 75, { descricao: ["036 a 075", "Nome Sacado", "Nome do Sacado"] }],
+    [76, 76, { descricao: ["076 a 076", "Tipo Inscrição Cedente", "Tipo de Inscrição do Cedente"] }],
+    [77, 91, { descricao: ["077 a 091", "Número Inscrição Cedente", "Número de Inscrição do Cedente"] }],
+    [92, 131, { descricao: ["092 a 131", "Nome Cedente", "Nome do Cedente"] }],
+    [132, 132, { descricao: ["132 a 132", "Tipo Inscrição Sacador", "Tipo de Inscrição do Sacador Avalista"] }],
+    [133, 147, { descricao: ["133 a 147", "Número Inscrição Sacador", "Número de Inscrição do Sacador Avalista"] }],
+    [148, 187, { descricao: ["148 a 187", "Nome Sacador", "Nome do Sacador Avalista"] }],
+    [188, 240, { descricao: ["188 a 240", "Brancos", "Complemento de Registro"] }]
+  ],
+
+  // TODO lógica para N1, N2, N3 e N4
+  segmentoN1: [
+  ],
+
+  segmentoN2: [
+  ],
+
+  segmentoN3: [
+  ],
+
+  segmentoN4: [
+  ],
+
+  segmentoNX: [
+  ],
+
+  segmentoO: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 17, { descricao: ["015 a 017", "Tipo de Movimento", "Tipo de Movimento"] }],
+    [18, 65, { descricao: ["018 a 065", "Código de Barras", "Código de Barras"] }],
+    [66, 95, { descricao: ["066 a 095", "Nome", "Nome da Concessionária / Contribuinte"] }],
+    [96, 103, { descricao: ["096 a 103", "Data Vencimento", "Data do Vencimento (Nominal)"] }],
+    [104, 106, { descricao: ["104 a 106", "Moeda", "Tipo de Moeda"] }],
+    [107, 121, { descricao: ["107 a 121", "Quantidade Moeda", "Quantidade de Moeda"] }],
+    [122, 136, { descricao: ["122 a 136", "Valor a Pagar", "Valor Previsto do Pagamento"] }],
+    [137, 144, { descricao: ["137 a 144", "Data Pagamento", "Data do Pagamento"] }],
+    [145, 159, { descricao: ["145 a 159", "Valor Pago", "Valor de Efetivação do Pagamento"] }],
+    [160, 162, { descricao: ["160 a 162", "Brancos", "Complemento de Registro"] }],
+    [163, 171, { descricao: ["163 a 171", "Nota Fiscal", "Número da Nota Fiscal"] }],
+    [172, 174, { descricao: ["172 a 174", "Brancos", "Complemento de Registro"] }],
+    [175, 194, { descricao: ["175 a 194", "Seu Número", "Nº Docto Atribuído pela Empresa"] }],
+    [195, 215, { descricao: ["195 a 215", "Brancos", "Complemento de Registro"] }],
+    [216, 230, { descricao: ["216 a 230", "Nosso Número", "Número Atribuído pelo Banco"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Código de Ocorrências p/ Retorno"] }]
+  ],
+
+  segmentoZ: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Detalhe de Lote"] }],
+    [9, 13, { descricao: ["009 a 013", "Número do Registro", "Nº Sequencial Registro no Lote"] }],
+    [14, 14, { descricao: ["014 a 014", "Código do Segmento", "Código Segmento Reg. Detalhe"] }],
+    [15, 78, { descricao: ["015 a 078", "Autenticação", "Autenticação Eletrônica de Pagamento"] }],
+    [79, 98, { descricao: ["079 a 098", "Seu Número", "Nº Docto Atribuído pela Empresa"] }],
+    [99, 103, { descricao: ["099 a 103", "Brancos", "Complemento de Registro"] }],
+    [104, 118, { descricao: ["104 a 118", "Nosso Número", "Nº Docto Atribuído pelo Banco"] }],
+    [119, 240, { descricao: ["119 a 240", "Brancos", "Complemento de Registro"] }]
+  ],
+
+  trailerLote: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Trailer de Lote"] }],
+    [9, 17, { descricao: ["009 a 017", "Brancos", "Complemento de Registro"] }],
+    [18, 23, { descricao: ["018 a 023", "Total Qtde Registros", "Qtde Registros do Lote"] }],
+    [24, 41, { descricao: ["024 a 041", "Total Valor Pagos", "Soma Valor dos Pgtos do Lote"] }],
+    [42, 57, { descricao: ["042 a 057", "Total Qtde Moeda", "Soma da Quantidade de Moeda do Lote"] }],
+    [58, 230, { descricao: ["058 a 230", "Brancos", "Complemento de Registro"] }],
+    [231, 240, { descricao: ["231 a 240", "Ocorrências", "Códigos Ocorrências p/ Retorno"] }]
+  ],
+
+  trailerLoteE: [
+  ],
+
+  trailerArquivo: [
+    [1, 3, { descricao: ["001 a 003", "Código do Banco", "Código Banco na Compensação"] }],
+    [4, 7, { descricao: ["004 a 007", "Código do Lote", "Lote de Serviço"] }],
+    [8, 8, { descricao: ["008 a 008", "Tipo de Registro", "Registro Trailer de Arquivo"] }],
+    [9, 17, { descricao: ["009 a 017", "Brancos", "Complemento de Registro"] }],
+    [18, 23, { descricao: ["018 a 023", "Total Qtde de Lotes", "Qtde Lotes do Arquivo"] }],
+    [24, 29, { descricao: ["024 a 029", "Total Qtde Registros", "Qtde Registros do Arquivo"] }],
+    [30, 240, { descricao: ["030 a 240", "Brancos", "Complemento de Registro"] }]
   ],
   outros: []
 }

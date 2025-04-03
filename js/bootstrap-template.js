@@ -71,31 +71,3 @@
   setActiveItem()
   window.addEventListener('hashchange', setActiveItem)
 })()
-
-
-document.getElementById('icon-info').addEventListener('click', function () {
-  var notificationsContainer = document.getElementById('notificationsContainer');
-  notificationsContainer.style.display = notificationsContainer.style.display === 'none' ? 'block' : 'none';
-});
-
-
-document.addEventListener('DOMContentLoaded', function () {
-  if (window.location.pathname.includes('options.html')) {
-    const icon = document.getElementById('icon-info');
-    let blinkCount = 0;
-    const maxBlinks = 4;
-    const blinkInterval = 1000; // 1 segundo
-
-    const blinkIcon = () => {
-      icon.classList.toggle('icon-info-blink');
-      blinkCount++;
-
-      if (blinkCount < maxBlinks * 2) {
-        setTimeout(blinkIcon, blinkInterval / 2);
-      } else {
-        icon.classList.remove('icon-info-blink');
-      }
-    };
-    setTimeout(blinkIcon, blinkInterval / 2);
-  }
-});

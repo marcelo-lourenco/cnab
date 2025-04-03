@@ -59,11 +59,38 @@ let layoutArquivo = "";
 let tipoArquivo = "";
 let descricaoCampos = [];
 let versaoLayout = "";
+let banco = "";
+let codigoBanco = "";
 
 // Função para obter as cores baseadas no tema atual
 function getCoresPorTema() {
   const theme = document.documentElement.getAttribute('data-bs-theme');
   return theme === 'dark' ? coresDark : coresLight;
+}
+
+
+/**
+ * Identifica o banco com base nas 3 primeiras posições da primeira linha do arquivo.
+ * @param {string} primeiraLinha - A primeira linha do arquivo a ser processado.
+ * @returns {string} O nome do banco: "Bradesco" ou "Itaú".
+ */
+function identificarBanco(primeiraLinha) {
+
+  if (layoutArquivo === "CNAB150") {
+    codigoBanco = posicao(primeiraLinha, 31, 33);
+  } else if (layoutArquivo === "CNAB240") {
+    codigoBanco = posicao(primeiraLinha, 1, 3);
+  } else if (layoutArquivo === "CNAB400") {
+    codigoBanco = posicao(primeiraLinha, 77, 79);
+  }
+
+  if (codigoBanco === "237") {
+    return "Bradesco";
+  } else if (codigoBanco === "341") {
+    return "Itaú";
+  } else {
+    return "Outros";
+  }
 }
 
 /**
@@ -212,7 +239,7 @@ function colorirTexto(linha, layoutArquivo) {
     const campo = posicao(linha, ini, fin);
     let descricao = desc.descricao;
 
-    resultado += `<span style="color: ${cores[ini % cores.length]}; border: 0px solid #AAA;" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
+    resultado += `<span style="color: ${cores[ini % cores.length]};" title="${descricao.join(" | ")}" onclick="exibirTooltip(event, '${descricao.join("|")}')">${campo}</span>`;
   }
 
   return resultado;
@@ -243,6 +270,30 @@ function processarArquivo(event) {
 
         // Identificar o layout do arquivo com base na primeira linha
         layoutArquivo = identificarLayoutArquivo(linhas[0]);
+
+        // Identificar o banco com base na primeira linha
+        banco = identificarBanco(linhas[0]);
+
+        // Carregar os scripts correspondentes ao banco
+        if (banco === "Bradesco") {
+          descricaoCampos150 = descricaoCampos150Bradesco;
+          descricaoCampos240 = descricaoCampos240Bradesco;
+          descricaoCampos400 = descricaoCampos400Bradesco;
+          colunasCNAB150 = colunasCNAB150Bradesco;
+          colunasCNAB240 = colunasCNAB240Bradesco;
+          colunasCNAB400 = colunasCNAB400Bradesco;
+        } else if (banco === "Itaú") {
+          descricaoCampos150 = descricaoCampos150Itau;
+          descricaoCampos240 = descricaoCampos240Itau;
+          descricaoCampos400 = descricaoCampos400Itau;
+          colunasCNAB150 = colunasCNAB150Itau;
+          colunasCNAB240 = colunasCNAB240Itau;
+          colunasCNAB400 = colunasCNAB400Itau;
+        } else {
+          alert(`Ops! Ainda não implementamos este layout para o banco ${codigoBanco}.`);
+          return;
+        }
+
         versaoLayout = identificarVersaoLayout(linhas[0]);
         tipoArquivo = identificarTipoArquivo(linhas[0], layoutArquivo); // cnab 400 - 1=remessa, 2=Retorno 
 
@@ -273,7 +324,7 @@ function processarArquivo(event) {
         tabelaConteudo.classList.remove('conteudo-inicial');
 
         // Inserir o layout do arquivo selecionado dentro do elemento <div> com o id "tipoArquivo"
-        document.getElementById('layoutArquivo').textContent = `${layoutArquivo}`;
+        document.getElementById('layoutArquivo').textContent = `${banco} - ${layoutArquivo}`;
       };
 
       reader.readAsText(file);
@@ -316,14 +367,13 @@ function preencherCampoDescricao(layoutArquivo) {
   } else {
     descricaoCampos = "Não Localizado";
   }
-  /* 
+  /*
     const descricaoCamposMapping = {
       "CNAB150": descricaoCampos150,
       "CNAB240": descricaoCampos240,
       "CNAB400": descricaoCampos400,
       "default": "Não Localizado"
     };
-  
     const descricaoCampos = descricaoCamposMapping[layoutArquivo] || descricaoCamposMapping["default"];
    */
   descricaoCampos.forEach(item => {
@@ -402,11 +452,11 @@ function exibirModal(codigoDescricao) {
     const tituloDescricao = linhas.shift(); // Retira a primeira linha do texto (título da descrição)
 
     // Atualiza o título e o conteúdo do modal
-    document.getElementById("exampleModalLabel").textContent = `${codigoSelecionado[0]} - ${tituloDescricao}`;
+    document.getElementById("modalDescricaoLabel").textContent = `${codigoSelecionado[0]} - ${tituloDescricao}`;
     descricaoModal.innerHTML = `<pre>${linhas.join('<br>')}</pre>`;
 
     // Exibe o modal usando Bootstrap
-    const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+    const modal = new bootstrap.Modal(document.getElementById("modalDescricao"));
     modal.show();
   }
 }
@@ -432,3 +482,33 @@ window.onclick = function (event) {
     fecharModal();
   }
 };
+
+
+/*
+document.getElementById('icon-info').addEventListener('click', function () {
+  var notificationsContainer = document.getElementById('notificationsContainer');
+  notificationsContainer.style.display = notificationsContainer.style.display === 'none' ? 'block' : 'none';
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.location.pathname.includes('options.html')) {
+    const icon = document.getElementById('icon-info');
+    let blinkCount = 0;
+    const maxBlinks = 4;
+    const blinkInterval = 1000; // 1 segundo
+
+    const blinkIcon = () => {
+      icon.classList.toggle('icon-info-blink');
+      blinkCount++;
+
+      if (blinkCount < maxBlinks * 2) {
+        setTimeout(blinkIcon, blinkInterval / 2);
+      } else {
+        icon.classList.remove('icon-info-blink');
+      }
+    };
+    setTimeout(blinkIcon, blinkInterval / 2);
+  }
+});
+*/

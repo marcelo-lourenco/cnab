@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Marcelo Lourenço">
-  <meta name="description" content="Separa 0 conteúdo do arquivo CNAB por cores.">
+  <meta name="description" content="Separa o conteúdo do arquivo CNAB por cores.">
   <meta name="keywords" content="CNAB, CNAB 150, CNAB 240, CNAB 400, arquivo CNAB">
   <meta name="author" content="Marcelo Lourenço">
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
@@ -37,13 +37,13 @@
     <div class="container d-flex flex-column flex-grow-1">
 
       <!-- Cabeçalho -->
-      <div class="row m-1  bg-body-secondary rounded shadow-sm mw-100">
-        <div class="row m-2 p-1  col-md-5 rounded box-shadow">
+      <header class="row m-1 p-2 bg-body-secondary rounded shadow-sm mw-100">
+        <div class="row col-md-6">
           <div class="col-md-8 p-2"><b>SELECIONE O ARQUIVO CNAB</b></div>
-          <div class="col-md-4 p-2" id="layoutArquivo">txt, rem ou ret</div>
+          <div class="col-md-4 p-2 text-primary-emphasis" id="layoutArquivo">txt, rem ou ret</div>
         </div>
 
-        <div class="row m-2 p-1 col-md-6">
+        <div class="row col-md-6">
           <div class="col-md-8">
             <input type="file" id="fileInput" class="form-control btn  btn-secondary" onchange="processarArquivo(event)"
               accept=".txt,.rem,.ret">
@@ -53,37 +53,40 @@
               <option value="">Descrição dos Campos</option>
             </select>
           </div>
+          <!--
+          <div class="col-md-1">
+            <i id="icon-info" class="icon icon-24 icon-info" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Informações" data-bs-original-title="Informações"></i>
+          </div>
+          -->
         </div>
-      </div>
+      </header>
 
 
-      <!-- Aviso -->
-      <div class="container mt-3" id="notificationsContainer" style="display: none;">
+      <!-- Aviso  -->
+      <!--
+      <section id="notificationsContainer" class="container mt-3" style="display: none;">
         <div class="alert alert-primary alert-dismissible fade show col-lg-8 mx-auto" role="alert">
-          Gerar dados direto no campo: Nas páginas com formulários, clique com o <strong>botão direito > Gerador de
-            Dados</strong>.
-          <br>
-          Para personalizar o prenchimento de múltiplos campos, utilize a <a class="alert-link"
-            href="./options.html">página de configurações</a>.
+          Exemplo de mensagem <strong>importante</strong>.<br>
+          exemplo de <a class="alert-link" href="./options.html">link</a>.
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </div>
+      </section>
+      -->
 
       <!-- Tabela -->
-      <div class="m-1 bg-body-tertiaryp-5 rounded flex-grow-1 d-flex flex-column">
+      <section class="m-1 bg-body-tertiaryp-5 rounded flex-grow-1 d-flex flex-column">
         <div class="col-sm-12 mx-auto  border rounded shadow-sm  flex-grow-1 d-flex flex-column overflow-x-auto">
           <table id="conteudoColorido" class="table table-striped conteudo-inicial min-w-full border">
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="modalDescricao" tabindex="-1" role="dialog" aria-labelledby="modalDescricaoLabel">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Descrição do Campo</h5>
+              <h5 class="modal-title" id="modalDescricaoLabel">Descrição do Campo</h5>
             </div>
             <div class="modal-body" id="descricaoModal">
               <!-- O conteúdo da descrição será inserido aqui -->
@@ -96,32 +99,30 @@
       </div>
 
       <!-- Rodapé -->
-      <div class="row m-1 bg-body-secondary rounded shadow-sm mw-100">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center m-3 pe-5 tooltip-demo">
-          <div class="col-md-4 d-flex align-items-center">
-            <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 CNAB Colorido</span>
-          </div>
+      <footer
+        class="row m-1 p-2 pe-5 bg-body-secondary rounded shadow-sm mw-100 d-flex flex-wrap justify-content-between align-items-center tooltip-demo">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="text-body-secondary">&copy; 2023 CNAB Colorido</span>
+        </div>
 
-          <ul class="col-md-4 mb-0 pe-5 justify-content-end list-unstyled d-flex">
-            <li class="ms-3">
-              <a href="https://github.com/marcelo-lourenco/cnab" target="_blank" data-bs-toggle="tooltip"
-                data-bs-placement="top" title="Github" class="tooltip-icon" class="tooltip-icon">
-                <div id="icon-github" class="icon icon-24 icon-github"></div>
-              </a>
-            </li>
-            <li class="ms-3">
-              <a href="https://github.com/marcelo-lourenco/cnab/issues" target="_blank" data-bs-toggle="tooltip"
-                data-bs-placement="top" title="Sugestão" class="tooltip-icon">
-                <div id="icon-suggestion" class="icon icon-24 icon-suggestion"></div>
-              </a>
-            </li>
-          </ul>
-        </footer>
-      </div>
-
+        <ul class="col-md-4 mb-0 pe-5 justify-content-end list-unstyled d-flex">
+          <li class="ms-3">
+            <a href="https://github.com/marcelo-lourenco/cnab" target="_blank" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Github" class="tooltip-icon" class="tooltip-icon">
+              <div id="icon-github" class="icon icon-24 icon-github mt-2"></div>
+            </a>
+          </li>
+          <li class="ms-3">
+            <a href="https://github.com/marcelo-lourenco/cnab/issues" target="_blank" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Sugestão" class="tooltip-icon">
+              <div id="icon-suggestion" class="icon icon-24 icon-suggestion mt-2"></div>
+            </a>
+          </li>
+        </ul>
+      </footer>
   </main>
 
-  <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-4 bd-mode-toggle">
+  <div class="dropdown position-fixed bottom-0 end-0 mb-2 me-4 bd-mode-toggle">
     <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
       aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
       <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
