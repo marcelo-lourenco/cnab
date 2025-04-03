@@ -8,65 +8,82 @@ Inclui descrição dos campos
 
 [https://marcelo-lourenco.github.io/cnab/](https://marcelo-lourenco.github.io/cnab/)
 
-## Tipos Implementados
+## Tipos Implementados (por banco)
+
+- 237 - Bradesco
+- 341 - Itaú
 
 ### CNAB 150
 
-- [X] Descrição do Registro “A” HEADER 04
-- [X] Descrição do Registro “C” OCORRÊNCIAS NO CADASTRAMENTO DO DÉBITO AUTOMÁTICO
-- [X] Descrição do Registro “D” ALTERAÇÃO DE CHAVES PELA EMPRESA
-- [X] Descrição do Registro “F” RETORNO DO DÉBITO AUTOMÁTICO
-- [X] Descrição do Registro “M” INCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
-- [X] Descrição do Registro “N” EXCLUSÃO DE CONTAS NO DÉBITO AUTOMÁTICO
-- [X] Descrição do Registro “O” BLOQUEIO DE VALORES AGENDADOS
-- [X] Descrição do Registro “P” ATUALIZAÇÃO DO CADASTRO DE CONCESSIONÁRIAS E SERVIÇOS
-- [X] Descrição do Registro “W” DETALHE LANÇAMENTOS FUTUROS PARA CLIENTES
-- [X] Descrição do Registro “Z” TRAILLER
+| Registro | 237 | 341 |
+| -------- | --- | --- |
+| A        | ✅ | 🔳 |
+| C        | ✅ | 🔳 |
+| D        | ✅ | 🔳 |
+| F        | ✅ | 🔳 |
+| M        | ✅ | 🔳 |
+| N        | ✅ | 🔳 |
+| O        | ✅ | 🔳 |
+| P        | ✅ | 🔳 |
+| W        | ✅ | 🔳 |
+| Z        | ✅ | 🔳 |
 
 ### CNAB 240
 
-- [X] Header Arquivo
-- [X] Header Lote
-- [X] Segmento A
-- [X] Segmento B
-- [ ] Segmento C
-- [X] Segmento E
-- [ ] Segmento 5
-- [X] Segmento J
-- [X] Segmento J 52
-- [ ] Segmento G
-- [ ] Segmento H
-- [ ] Segmento Y
-- [X] Segmento O
-- [X] Segmento N
-- [X] Segmento N1
-- [X] Segmento N2
-- [X] Segmento N3
-- [X] Segmento N4
-- [ ] Segmento W
-- [X] Segmento Z
-- [X] Trailer Lote
-- [X] Trailer Arquivo
+| Tipo/Segmento   | 237 | 341 |
+| --------------- | --- | --- |
+| Header Arquivo  | ✅ | ✅ |
+| Header Lote     | ✅ | ✅ |
+| A               | ✅ | ✅ |
+| B               | ✅ | ✅ |
+| C               | 🔳 | 🔳 |
+| E               | ✅ | ✅ |
+| 5               | 🔳 | 🔳 |
+| J               | ✅ | ✅ |
+| J 52            | ✅ | ✅ |
+| J 52 PIX        | 🔳 | 🔳 |
+| G               | 🔳 | 🔳 |
+| H               | 🔳 | 🔳 |
+| Y               | 🔳 | 🔳 |
+| O               | ✅ | ✅ |
+| N               | ✅ | ✅ |
+| N1              | ✅ | ✅ |
+| N2              | ✅ | ✅ |
+| N3              | ✅ | ✅ |
+| N4              | ✅ | ✅ |
+| W               | 🔳 | 🔳 |
+| Z               | ✅ | ✅ |
+| Trailer Lote    | ✅ | ✅ |
+| Trailer Arquivo | ✅ | ✅ |
 
 ### CNAB 400
 
-####Remessa
+#### Remessa
 
-- [X] Header Label
-- [X] Transação Tipo 1
-- [ ] Transação Tipo 2
-- [ ] Transação Tipo 3
-- [ ] Transação Tipo 6
-- [ ] Transação Tipo 7
-- [X] Trailer
-  
-####Retorno
+| Tipo        | 237 | 341 |
+|------------ | --- | --- |
+| 0 - Header  | ✅ | ✅ |
+| 1           | ✅ | ✅ |
+| 2           | 🔳 | 🔳 |
+| 3           | 🔳 | 🔳 |
+| 6           | 🔳 | 🔳 |
+| 7           | 🔳 | 🔳 |
+| 9 - Trailer | ✅ | ✅ |
 
-- [X] Header Label
-- [X] Transação Tipo 1
-- [ ] Transação Tipo 2
-- [ ] Transação Tipo 3
-- [ ] Transação Tipo 6
-- [ ] Transação Tipo 7
-- [X] Trailer
+#### Retorno
 
+| Tipo        | 237 | 341 |
+|----------   | --- | --- |
+| 0 - Header  | ✅ | ✅ |
+| 1           | ✅ | ✅ |
+| 2           | 🔳 | 🔳 |
+| 3           | 🔳 | 🔳 |
+| 6           | 🔳 | 🔳 |
+| 7           | 🔳 | 🔳 |
+| 9 - Trailer | ✅ | ✅ |
+
+## Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para bifurcar o repositório e enviar suas solicitações de pull.
+
+[Código de Conduta](https://github.com/marcelo-lourenco/cnab?tab=coc-ov-file#readme) • [Licença MIT](https://github.com/marcelo-lourenco/cnab?tab=MIT-1-ov-file#readme) • [Segurança](https://github.com/marcelo-lourenco/cnab/security) • [Changelog](https://github.com/marcelo-lourenco/cnab/blob/master/CHANGELOG.md) • [Fórum](https://github.com/marcelo-lourenco/cnab/discussions)
