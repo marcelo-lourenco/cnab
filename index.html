@@ -2,17 +2,36 @@
 <html lang="pt-BR" data-bs-theme="auto">
 
 <head>
-  <title>CNAB - Colorido</title>
+  <title>CNAB Colorido - Visualize e Analise Arquivos CNAB Facilmente (CNAB 150, CNAB 240 e CNAB 400)</title>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Marcelo Lourenço">
-  <meta name="description" content="Separa o conteúdo do arquivo CNAB por cores.">
-  <meta name="keywords" content="CNAB, CNAB 150, CNAB 240, CNAB 400, arquivo CNAB">
+  <meta name="description"
+    content="Ferramenta online gratuita para visualizar arquivos CNAB (150, 240, 400) com campos coloridos, facilitando a leitura e análise dos dados bancários. Faça upload do seu .txt, .rem ou .ret.">
+  <meta name="keywords"
+    content="CNAB, CNAB 150, CNAB 240, CNAB 400, arquivo CNAB, visualizar CNAB, analisar CNAB, leitor CNAB, ferramenta CNAB, remessa, retorno">
   <meta name="author" content="Marcelo Lourenço">
   <meta name="google-site-verification" content="k2nQOYapQVIt3pnkIZrmUGnjD4wqOJ-GGMop_VIwhXk" />
+  <link rel="canonical" href="https://marcelo-lourenco.github.io/cnab/" />
+
+  <meta property="og:title" content="CNAB Colorido - Visualize e Analise Arquivos CNAB Facilmente" />
+  <meta property="og:description"
+    content="Ferramenta online gratuita para visualizar arquivos CNAB (150, 240, 400) com campos coloridos, facilitando a leitura e análise." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marcelo-lourenco.github.io/cnab/" />
+  <meta property="og:image" content="https://marcelo-lourenco.github.io/cnab/img/cnab.png" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CNAB Colorido - Visualize e Analise Arquivos CNAB Facilmente">
+  <meta name="twitter:description"
+    content="Ferramenta online gratuita para visualizar arquivos CNAB (150, 240, 400) com campos coloridos, facilitando a leitura e análise.">
+  <meta name="twitter:image" content="https://marcelo-lourenco.github.io/cnab/img/cnab.png">
+
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/styles.css">
+
   <script src="./js/colunas-cnab-150.js"></script>
   <script src="./js/colunas-cnab-240.js"></script>
   <script src="./js/colunas-cnab-400.js"></script>
@@ -20,87 +39,94 @@
   <script src="./js/descricao-campos-240.js"></script>
   <script src="./js/descricao-campos-400.js"></script>
   <script src="./js/script.js"></script>
-  <!-- Google tag (gtag.js) -->
-  <!-- Deve ser retirado do seu projeto -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4GFX00MP44"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-4GFX00MP44');
-  </script>
-  <!--Fim Google tag -->
+
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
-    w[l] = w[l] || []; w[l].push({
-      'gtm.start':
-        new Date().getTime(), event: 'gtm.js'
-    }); var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', 'GTM-M75WVXG8');</script>
-<!-- End Google Tag Manager -->
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-M75WVXG8');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- ### SEO: Structured Data (Schema.org) using JSON-LD ### -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CNAB Colorido",
+    "description": "Ferramenta online gratuita para visualizar arquivos CNAB (150, 240, 400) com campos coloridos, facilitando a leitura e análise dos dados bancários.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web/Online",
+    "url": "https://marcelo-lourenco.github.io/cnab/",
+    "author": {
+      "@type": "Person",
+      "name": "Marcelo Lourenço"
+      "url": "https://www.linkedin.com/in/marcelolourencodasilva/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0", // Gratuito
+      "priceCurrency": "BRL" // Ou USD, etc.
+    },
+    "keywords": "CNAB, CNAB 150, CNAB 240, CNAB 400, arquivo CNAB, visualizar CNAB, analisar CNAB, leitor CNAB, ferramenta CNAB, remessa, retorno"
+  }
+  </script>
+
 </head>
 
 <body class="bg-body-tertiary-5">
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M75WVXG8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M75WVXG8" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
   <main id="main" class="d-flex flex-column min-vh-100">
     <div class="container d-flex flex-column flex-grow-1">
 
+      <h1 class="visually-hidden">CNAB Colorido - Visualizador de Arquivos CNAB</h1>
+
       <!-- Cabeçalho -->
       <header class="row m-1 p-2 bg-body-secondary rounded shadow-sm mw-100">
-        <div class="row col-md-6">
-          <div class="col-md-8 p-2"><b>SELECIONE O ARQUIVO CNAB</b></div>
+        <div class="row col-md-6 align-items-center">
+          <h2 class="col-md-8 p-2 h5 mb-0">Selecione o Arquivo CNAB</h2>
           <div class="col-md-4 p-2 text-primary-emphasis" id="layoutArquivo">txt, rem ou ret</div>
         </div>
 
-        <div class="row col-md-6">
+        <div class="row col-md-6 align-items-center">
           <div class="col-md-8">
-            <input type="file" id="fileInput" class="form-control btn  btn-secondary" onchange="processarArquivo(event)"
-              accept=".txt,.rem,.ret">
+            <input type="file" id="fileInput" class="form-control btn btn-secondary" onchange="processarArquivo(event)"
+              accept=".txt,.rem,.ret" aria-label="Selecionar arquivo CNAB">
           </div>
           <div class="col-md-4">
-            <select id="codigoFiltro" class="form-select" onchange="exibirModal()">
+            <select id="codigoFiltro" class="form-select" onchange="exibirModal()"
+              aria-label="Selecionar descrição de campo">
               <option value="">Descrição dos Campos</option>
             </select>
           </div>
-          <!--
-          <div class="col-md-1">
-            <i id="icon-info" class="icon icon-24 icon-info" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Informações" data-bs-original-title="Informações"></i>
-          </div>
-          -->
         </div>
       </header>
 
-
-      <!-- Aviso  -->
-      <!--
-      <section id="notificationsContainer" class="container mt-3" style="display: none;">
-        <div class="alert alert-primary alert-dismissible fade show col-lg-8 mx-auto" role="alert">
-          Exemplo de mensagem <strong>importante</strong>.<br>
-          exemplo de <a class="alert-link" href="./options.html">link</a>.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </section>
-      -->
-
       <!-- Tabela -->
-      <section class="m-1 bg-body-tertiaryp-5 rounded flex-grow-1 d-flex flex-column">
-        <div class="col-sm-12 mx-auto  border rounded shadow-sm  flex-grow-1 d-flex flex-column overflow-x-auto">
+      <section aria-labelledby="tabela-cnab-label" class="m-1 bg-body-tertiary rounded flex-grow-1 d-flex flex-column">
+        <h3 id="tabela-cnab-label" class="visually-hidden">Conteúdo do Arquivo CNAB Colorido</h3>
+        <div class="col-sm-12 mx-auto border rounded shadow-sm flex-grow-1 d-flex flex-column overflow-x-auto">
           <table id="conteudoColorido" class="table table-striped conteudo-inicial min-w-full border">
+            <caption class="visually-hidden">Tabela exibindo o conteúdo do arquivo CNAB linha por linha com campos
+              coloridos</caption>
           </table>
         </div>
       </section>
 
       <!-- Modal -->
-      <div class="modal fade" id="modalDescricao" tabindex="-1" role="dialog" aria-labelledby="modalDescricaoLabel">
+      <div class="modal fade" id="modalDescricao" tabindex="-1" role="dialog" aria-labelledby="modalDescricaoLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalDescricaoLabel">Descrição do Campo</h5>
+              <h4 class="modal-title h5" id="modalDescricaoLabel">Descrição do Campo</h4>
             </div>
             <div class="modal-body" id="descricaoModal">
               <!-- O conteúdo da descrição será inserido aqui -->
@@ -121,19 +147,22 @@
 
         <ul class="col-md-4 mb-0 pe-5 justify-content-end list-unstyled d-flex">
           <li class="ms-3">
-            <a href="https://github.com/marcelo-lourenco/cnab" target="_blank" data-bs-toggle="tooltip"
-              data-bs-placement="top" title="Github" class="tooltip-icon" class="tooltip-icon">
-              <div id="icon-github" class="icon icon-24 icon-github mt-2"></div>
+            <a href="https://github.com/marcelo-lourenco/cnab" target="_blank" rel="noopener noreferrer"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Github" class="tooltip-icon">
+              <div id="icon-github" class="icon icon-24 icon-github mt-2"
+                aria-label="Link para o repositório Github do CNAB Colorido"></div>
             </a>
           </li>
           <li class="ms-3">
-            <a href="https://github.com/marcelo-lourenco/cnab/issues" target="_blank" data-bs-toggle="tooltip"
-              data-bs-placement="top" title="Sugestão" class="tooltip-icon">
-              <div id="icon-suggestion" class="icon icon-24 icon-suggestion mt-2"></div>
+            <a href="https://github.com/marcelo-lourenco/cnab/issues" target="_blank" rel="noopener noreferrer"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Sugestão" class="tooltip-icon">
+              <div id="icon-suggestion" class="icon icon-24 icon-suggestion mt-2"
+                aria-label="Link para abrir uma issue ou sugestão no Github"></div>
             </a>
           </li>
         </ul>
       </footer>
+    </div>
   </main>
 
   <div class="dropdown position-fixed bottom-0 end-0 mb-2 me-4 bd-mode-toggle">
