@@ -193,9 +193,37 @@ function colorirTexto(linha, layoutArquivo) {
             break;
           case "O": tipo = "segmentoO"; break;
           case "N":
-            let receita = posicao(linha, 111, 116);
-            tipo = ["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)
-              ? "segmentoN2" : "segmentoNX";
+
+           console.log("EntreiN", )
+
+            if (banco === "Bradesco") {
+              let receita = posicao(linha, 111, 116);
+              if (["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)) {
+                tipo = "segmentoN2";
+              } else {
+                tipo = "segmentoNX";
+              }
+
+            } else if (banco === "Itaú") {
+              console.log("Entrei no banco", banco)
+              let tributo = posicao(linha, 18, 19);
+              console.log("tributo", tributo)
+              if (tributo === '01') { // GPF
+                tipo = "segmentoN1";
+              } else if (tributo === '02') { // DARF
+                tipo = "segmentoN2";
+              } else if (tributo === '03') { // DARF SIMPLES
+                tipo = "segmentoN3";
+              } else if (tributo === '05') { // GARE - SP ICMS
+                tipo = "segmentoN5";
+              } else if (tributo === '07' || tributo === '08') { // 07 - IPVA // 08 - DPVAT
+                tipo = "segmentoN7";
+              } else if (tributo === '11') { // 11=FGTS
+                tipo = "segmentoN11";
+              } else {
+                tipo = "segmentoNX";
+              }
+            }
             break;
           case "Z": tipo = "segmentoZ"; break;
           default: tipo = "outros";
@@ -295,7 +323,7 @@ function processarArquivo(event) {
         }
 
         versaoLayout = identificarVersaoLayout(linhas[0]);
-        tipoArquivo = identificarTipoArquivo(linhas[0], layoutArquivo); // cnab 400 - 1=remessa, 2=Retorno 
+        tipoArquivo = identificarTipoArquivo(linhas[0], layoutArquivo); // cnab 400 - 1=remessa, 2=Retorno
 
         // Antes de preencher, limpar o campo de seleção
         limparCampoDescricao();
