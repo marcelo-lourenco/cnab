@@ -57,6 +57,7 @@ const coresLight = [
 
 let layoutArquivo = "";
 let tipoArquivo = "";
+let segmentoArquivo = ""
 let descricaoCampos = [];
 let versaoLayout = "";
 let banco = "";
@@ -185,17 +186,15 @@ function colorirTexto(linha, layoutArquivo) {
       case "2": tipo = "iniciaisLote"; break;
       case "3":
         switch (posicao(linha, 14, 14)) {
-          case "A": tipo = "segmentoA"; break;
-          case "B": tipo = "segmentoB"; break;
-          case "E": tipo = "segmentoE"; break;
+          case "A": tipo = "segmentoA"; segmentoArquivo = "A"; break;
+          case "B": tipo = "segmentoB"; segmentoArquivo = "A"; break;
+          case "E": tipo = "segmentoE"; segmentoArquivo = "E"; break;
           case "J":
             tipo = posicao(linha, 18, 19) === "52" ? "segmentoJ52" : "segmentoJ";
+            segmentoArquivo = "J";
             break;
-          case "O": tipo = "segmentoO"; break;
+          case "O": tipo = "segmentoO"; segmentoArquivo = "O"; break;
           case "N":
-
-           console.log("EntreiN", )
-
             if (banco === "Bradesco") {
               let receita = posicao(linha, 111, 116);
               if (["008301", "8301", "005592", "5592", "001708", "1708"].includes(receita)) {
@@ -224,14 +223,19 @@ function colorirTexto(linha, layoutArquivo) {
                 tipo = "segmentoNX";
               }
             }
+            segmentoArquivo = "N";
             break;
-          case "Z": tipo = "segmentoZ"; break;
-          default: tipo = "outros";
+          case "Z": tipo = "segmentoZ"; segmentoArquivo = "Z"; break;
+          default: tipo = "outros"; segmentoArquivo = "";
         }
         break;
       case "4": tipo = "finaisLote"; break;
       case "5":
-        tipo = versaoLayout === "050" ? "trailerLoteE" : "trailerLote";
+        switch (segmentoArquivo) {
+          case "E": tipo = "trailerLoteE"; break;
+          case "N": tipo = "trailerLoteN"; break;
+          default: tipo = "trailerLote";
+        }
         break;
       case "9": tipo = "trailerArquivo"; break;
       default: tipo = "outros";

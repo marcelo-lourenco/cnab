@@ -838,6 +838,20 @@ const colunasCNAB240Itau = {
     [231, 240, { descricao: ["231 a 240", "Ocorrências", "Códigos Ocorrências p/ Retorno"] }]
   ],
 
+  trailerLoteN: [
+    [1, 3, { descricao: ["001 a 003", "CÓDIGO DO BANCO", "CÓDIGO BANCO NA COMPENSAÇÃO"] }],
+    [4, 7, { descricao: ["004 a 007", "CÓDIGO DO LOTE", "LOTE DE SERVIÇO"] }],
+    [8, 8, { descricao: ["008 a 008", "TIPO DE REGISTRO", "REGISTRO TRAILER DE LOTE"] }],
+    [9, 17, { descricao: ["009 a 017", "BRANCOS", "COMPLEMENTO DE REGISTRO"] }],
+    [18, 23, { descricao: ["018 a 023", "TOTAL QTDE REGISTROS", "QTDE REGISTROS DO LOTE"] }],
+    [24, 37, { descricao: ["024 a 037", "TOTAL VALOR PRINCIPAL", "SOMA VALOR PRINCIPAL DOS PGTOS DO LOTE"] }],
+    [38, 51, { descricao: ["038 a 051", "TOTAL OUTRAS ENTIDAD.", "SOMA VALORES DE OUTRAS ENTIDADES DO LOTE"] }],
+    [52, 65, { descricao: ["052 a 065", "TOTAL VAL. ACRESCIMOS", "SOMA VALORES ATUALIZ. MONET/MULTA/MORA"] }],
+    [66, 79, { descricao: ["066 a 079", "TOTAL VALOR ARRECAD.", "SOMA VALOR DOS PAGAMENTOS DO LOTE"] }],
+    [80, 230, { descricao: ["080 a 230", "BRANCOS", "COMPLEMENTO DE REGISTRO"] }],
+    [231, 240, { descricao: ["231 a 240", "OCORRÊNCIAS", "CÓDIGOS OCORRÊNCIAS P/ RETORNO"] }]
+  ],
+
   trailerLoteE: [
   ],
 
